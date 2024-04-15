@@ -1,7 +1,7 @@
 import { ChangeEvent, SyntheticEvent, useState } from "react";
 import fetchAPI from "../../utils/gameFetch";
 import Filter from "../../components/Filter";
-import List from "../../components/List";
+import SearchedList from "../../components/SearchedList";
 import { useNavigate } from "react-router-dom";
 
 const SearchGame = () => {
@@ -32,7 +32,7 @@ const SearchGame = () => {
         })
     }
 
-    function gameItemHandleClick(id: string, name: string) {
+    function gameItemHandleClick(_: any, id: string, name: string) {
         const url = `https://boardgamegeek.com/xmlapi/boardgame/${id}`;
         fetchAPI(url)
         .then(data => {
@@ -46,8 +46,8 @@ const SearchGame = () => {
     return (
         <>
             <h2>Add game</h2>
-            <Filter onSubmit={e => handleSubmit(e)} inputType={"text"} buttonType={"submit"} name="search" value={value} onChange={e => handleChange(e)} children={"Type game name"}/>
-            {games.length > 0 && <List onClick={(id: string, name: string) => gameItemHandleClick(id, name)} list={games}/>}
+            <Filter onSubmit={e => handleSubmit(e)} inputType="text" buttonType="submit" name="search" value={value} onChange={e => handleChange(e)} children="Type game name"/>
+            {games.length > 0 && <SearchedList onClick={(e: any, id: string, name: string) => gameItemHandleClick(e, id, name)} list={games} children="See more"/> }
         </>
 
     )

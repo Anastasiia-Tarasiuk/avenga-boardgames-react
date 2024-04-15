@@ -4,12 +4,13 @@ type Props = {
     buttonType: "submit" | "button";
     children: string;
     onClick?: MouseEventHandler<HTMLButtonElement>;
+    id?: string;
     disabled?: boolean;
 };
 
-const Button = ({buttonType, children, disabled, onClick}: Props) => {
+const Button = ({buttonType, id, children, disabled, onClick}: Props) => {
     return (
-        <button onClick={onClick} type={buttonType} disabled={disabled}>{children}</button>
+        <button data-id={id} onClick={onClick} type={buttonType} disabled={disabled}>{children}</button>
     )
 }
 

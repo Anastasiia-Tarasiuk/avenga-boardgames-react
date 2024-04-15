@@ -8,6 +8,7 @@ import Players from '../../pages/Players';
 import Settings from '../../pages/Settings';
 import NotFound from '../NotFound';
 import Game from '../../pages/Game';
+import Score from '../../pages/Score';
 
 function App() {
 
@@ -20,6 +21,7 @@ return (
       <Route path="players" element={<Players />} />
       <Route path="settings" element={<Settings />} />
       <Route path="game/:gameId" element={<Game/>}/>
+      <Route path="score/:gameId" element={<Score/>}/>
       <Route path='*' element={<NotFound/>} />
     </Route>
 </Routes>

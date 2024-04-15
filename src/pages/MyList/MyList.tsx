@@ -1,5 +1,24 @@
+import { useNavigate } from "react-router-dom";
+import Text from "../../components/Text";
+import SearchedList from "../../components/SearchedList";
+
+
 const MyList = () => {
-    return <div>My list</div>
+    const gameList = JSON.parse(localStorage.getItem("gameList") || '[]');
+
+    const navigate = useNavigate();
+    
+    function onAddScoreButtonClick(e: any) {
+        navigate(`/score/${e.currentTarget.dataset.id}`, { replace: false });
+    }
+
+    return (
+        <>
+            {gameList.length > 0
+                ? <SearchedList list={gameList} onClick={(e: any)=>onAddScoreButtonClick(e)} children="Add score"/>
+                : <Text>No items</Text>}
+        </>
+    )
 }
 
 export default MyList;
