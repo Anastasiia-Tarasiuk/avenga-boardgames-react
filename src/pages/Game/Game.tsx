@@ -30,8 +30,8 @@ const Game = () => {
         <>
             <p>{name}</p>
             <img src={url} alt={name}/>
-            <Button onClick={() => onAddButtonClick()} buttonType={"button"} children={"Add game"} disabled={desible}/>
-            {desible && <Button onClick={() => onAddScoreButtonClick()} buttonType={"button"} children="Add score" disabled={false}/>}
+            <Button onClick={() => onAddButtonClick()} buttonType="button" children="Add game" disabled={desible}/>
+            {desible && <Button onClick={() => onAddScoreButtonClick()} buttonType="button" children="Add score" disabled={false}/>}
         </>
         
     )

@@ -20,6 +20,7 @@ const SearchGame = () => {
         if (!value) {
             return;
         }
+
         const url = `https://boardgamegeek.com/xmlapi/search?search=${value}`;
         
         fetchAPI(url)
@@ -32,7 +33,7 @@ const SearchGame = () => {
         })
     }
 
-    function gameItemHandleClick(_: any, id: string, name: string) {
+    function gameItemHandleClick(_: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string, name: string) {
         const url = `https://boardgamegeek.com/xmlapi/boardgame/${id}`;
         fetchAPI(url)
         .then(data => {
@@ -46,8 +47,8 @@ const SearchGame = () => {
     return (
         <>
             <h2>Add game</h2>
-            <Filter onSubmit={e => handleSubmit(e)} inputType="text" buttonType="submit" name="search" value={value} onChange={e => handleChange(e)} children="Type game name"/>
-            {games.length > 0 && <SearchedList onClick={(e: any, id: string, name: string) => gameItemHandleClick(e, id, name)} list={games} children="See more"/> }
+            <Filter onSubmit={e => handleSubmit(e)} inputType="text" name="search" value={value} onChange={e => handleChange(e)} children="Type game name"/>
+            {games.length > 0 && <SearchedList onClick={(e, id, name) => gameItemHandleClick(e, id, name)} list={games} children="See more"/> }
         </>
 
     )

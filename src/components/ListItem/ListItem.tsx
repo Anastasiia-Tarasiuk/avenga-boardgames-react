@@ -1,13 +1,12 @@
-import { MouseEventHandler } from "react";
+import { ReactNode } from "react";
 
 type Props = {
-    children: any;
-    onClick?: MouseEventHandler<HTMLLIElement>;
+    children: ReactNode;
 }
 
-const ListItem = ({onClick, children}: Props) => {
+const ListItem = ({children}: Props) => {
     return (
-        <li onClick={onClick}>{children}</li>
+        <li>{children}</li>
     )
 }
 

@@ -8,14 +8,14 @@ const MyList = () => {
 
     const navigate = useNavigate();
     
-    function onAddScoreButtonClick(e: any) {
+    function onAddScoreButtonClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         navigate(`/score/${e.currentTarget.dataset.id}`, { replace: false });
     }
 
     return (
         <>
             {gameList.length > 0
-                ? <SearchedList list={gameList} onClick={(e: any)=>onAddScoreButtonClick(e)} children="Add score"/>
+                ? <SearchedList list={gameList} onClick={(e)=>onAddScoreButtonClick(e)} children="Add score"/>
                 : <Text>No items</Text>}
         </>
     )
