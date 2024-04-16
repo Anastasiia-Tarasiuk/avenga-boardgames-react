@@ -11,20 +11,19 @@ import Game from '../../pages/Game';
 import Score from '../../pages/Score';
 
 function App() {
-
-return (
-  <Routes>
-    <Route path="/" element={<SharedLayout />}>
-      <Route index element={<MyList />} />
-      <Route path="add_game" element={<SearchGame />} />
-      <Route path="favourites" element={<Favourites />} />
-      <Route path="players" element={<Players />} />
-      <Route path="settings" element={<Settings />} />
-      <Route path="game/:gameId" element={<Game/>}/>
-      <Route path="score/:gameId" element={<Score/>}/>
-      <Route path='*' element={<NotFound/>} />
-    </Route>
-</Routes>
+  return (
+    <Routes>
+      <Route path="/" element={<SharedLayout />}>
+        <Route index element={<MyList />} />
+        <Route path="add_game" element={<SearchGame />} />
+        <Route path="favourites" element={<Favourites />} />
+        <Route path="players" element={<Players />} />
+        <Route path="settings" element={<Settings />} />
+        <Route path="game/:gameId" element={<Game/>}/>
+        <Route path="score/:gameId" element={<Score/>}/>
+        <Route path='*' element={<NotFound/>} />
+      </Route>
+  </Routes>
 );
 }
 

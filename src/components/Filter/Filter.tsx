@@ -12,6 +12,7 @@ type Props = {
 };
 
 const Filter = ({inputType, name, value, children, onChange, onSubmit}: Props) => {
+
     return (
         <form onSubmit={onSubmit}>
             <Input inputType={inputType} name={name} value={value} onChange={onChange} children={children}/>

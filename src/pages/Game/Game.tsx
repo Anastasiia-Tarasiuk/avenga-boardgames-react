@@ -1,9 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "../../components/Button";
 import { useState } from "react";
+import PageHeading from "../../components/PageHeading";
 
 const Game = () => {
-
     const navigate = useNavigate();
     const gameList = JSON.parse(localStorage.getItem("gameList") || '[]');
 
@@ -23,11 +23,14 @@ const Game = () => {
     }
 
     function onAddScoreButtonClick() {
+        localStorage.setItem("gameData", JSON.stringify(data));
+        localStorage.setItem("date", JSON.stringify(Date.now()));
         navigate(`/score/${gameId}`, { replace: false });
     }
 
     return (
         <>
+            <PageHeading children="Save game to list"/>
             <p>{name}</p>
             <img src={url} alt={name}/>
             <Button onClick={() => onAddButtonClick()} buttonType="button" children="Add game" disabled={desible}/>

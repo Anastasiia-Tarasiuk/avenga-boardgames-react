@@ -3,6 +3,7 @@ import fetchAPI from "../../utils/gameFetch";
 import Filter from "../../components/Filter";
 import SearchedList from "../../components/SearchedList";
 import { useNavigate } from "react-router-dom";
+import PageHeading from "../../components/PageHeading";
 
 const SearchGame = () => {
     const [value, setValue] = useState("");
@@ -46,7 +47,7 @@ const SearchGame = () => {
 
     return (
         <>
-            <h2>Add game</h2>
+            <PageHeading children="Add game"/>
             <Filter onSubmit={e => handleSubmit(e)} inputType="text" name="search" value={value} onChange={e => handleChange(e)} children="Type game name"/>
             {games.length > 0 && <SearchedList onClick={(e, id, name) => gameItemHandleClick(e, id, name)} list={games} children="See more"/> }
         </>
