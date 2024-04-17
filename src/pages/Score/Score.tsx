@@ -9,6 +9,7 @@ import AddPlayerContent from "../../components/AddPlayerContent";
 
 type Player = {
     name: string;
+    score: any;
     hidden: boolean;
 };
 
@@ -18,11 +19,10 @@ type ScoreObj = {
     score: string;
 };
 
-
 const Score = () => {
-    const initailPlayer = '[{"name": "You", "hidden": "true", "score": "0"}]';
+    const initialPlayer = '[{"name": "You", "hidden": "true", "score": "0"}]';
     const { gameId } = useParams();
-    const [players, setPlayers] = useState<Player[]>(JSON.parse(localStorage.getItem("players") || initailPlayer));
+    const [players, setPlayers] = useState<Player[]>(JSON.parse(localStorage.getItem("players") || initialPlayer));
     const [currentPlayer, setCurrentPlayer] = useState<string | null>(null);
     const [score, setScore] = useState<string>("0");
     const [showModal, setShowModal] = useState<boolean>(false);
@@ -30,7 +30,7 @@ const Score = () => {
 
     useEffect(() => {
         return () => {
-            const playersFromStorage = JSON.parse(localStorage.getItem("players") || initailPlayer);
+            const playersFromStorage = JSON.parse(localStorage.getItem("players") || initialPlayer);
             localStorage.setItem("players", JSON.stringify(playersFromStorage.map((player: any) => {
                 if (!player.hidden) {
                     player.hidden = true;
@@ -56,6 +56,7 @@ const Score = () => {
             if (value !== ""){
                 setCurrentPlayer(value);
                 showPlayer(value);
+                setScore("0");
             }
         }
     }
@@ -94,6 +95,13 @@ const Score = () => {
                     }
                 }
             })
+
+            players.forEach(player => {
+                if (player.name === currentPlayer) {
+                    player.score = e.currentTarget.value;
+                }
+            })
+
             localStorage.setItem("gameList", JSON.stringify(gameList));
     }
 
@@ -103,11 +111,15 @@ const Score = () => {
 
     function onSavePlayerButtonClick() {
         setCurrentPlayer(newPlayer);
-        // setScore("0");
         const newPlayerObj = {"name": newPlayer, "hidden": false, score: 0};
         setShowModal(false);
         setPlayers(prevState => [...prevState, {...newPlayerObj}]);
         setNewPlayer("");
+    }
+
+    function onInputClick(name: any) {
+        setCurrentPlayer(name);
+        setScore("");
     }
     
     return (
@@ -118,7 +130,7 @@ const Score = () => {
                 <img src={url} alt={name}/>
             </div>
             <PlayerSelect players={players} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleSelectClick(e)}/>
-            <PlayerScore players={players} score={score} onChange={(e: ChangeEvent<HTMLSelectElement>)=>addScore(e)}/>
+            <PlayerScore onClick={(name:any)=>onInputClick(name)} players={players} currentPlayer={currentPlayer} score={score} onChange={(e: ChangeEvent<HTMLSelectElement>)=>addScore(e)}/>
             {showModal && <ModalOverlay close={() => setShowModal(false)} content={<AddPlayerContent value={newPlayer} onChange={(e: ChangeEvent<HTMLSelectElement>)=>addPlayerName(e)} onClick={()=>{onSavePlayerButtonClick()}}/>} />}
         </>
     )

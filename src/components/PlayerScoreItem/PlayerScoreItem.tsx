@@ -1,8 +1,8 @@
 import Input from "../Input";
 
-const PlayerScoreItem = ({onChange, children, score}: any) => {
+const PlayerScoreItem = ({onChange, onClick, children, score}: any) => {
     return (
-        <li>
+        <li onClick={()=>onClick(children)}>
             <Input inputType="number" name="score" value={score} children={children} onChange={onChange}/>
         </li>
     )
