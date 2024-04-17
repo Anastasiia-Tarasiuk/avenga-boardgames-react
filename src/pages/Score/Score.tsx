@@ -3,7 +3,9 @@ import PageHeading from "../../components/PageHeading";
 import Text from "../../components/Text";
 import PlayerSelect from "../../components/PlayerSelect";
 import PlayerScore from "../../components/PlayerScore";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
+import ModalOverlay from "../../components/ModalOverlay";
+import AddPlayerContent from "../../components/AddPlayerContent";
 
 type Player = {
     name: string;
@@ -18,10 +20,25 @@ type ScoreObj = {
 
 
 const Score = () => {
+    const initailPlayer = '[{"name": "You", "hidden": "true", "score": "0"}]';
     const { gameId } = useParams();
-    const [players, setPlayers] = useState<Player[]>(JSON.parse(localStorage.getItem("players") ||  '[{"name": "You", "hidden": "true"}]'));
+    const [players, setPlayers] = useState<Player[]>(JSON.parse(localStorage.getItem("players") || initailPlayer));
     const [currentPlayer, setCurrentPlayer] = useState<string | null>(null);
-    const [score, setScore ] = useState<string>("0");
+    const [score, setScore] = useState<string>("0");
+    const [showModal, setShowModal] = useState<boolean>(false);
+    const [newPlayer, setNewPlayer] = useState<string>("");
+
+    useEffect(() => {
+        return () => {
+            const playersFromStorage = JSON.parse(localStorage.getItem("players") || initailPlayer);
+            localStorage.setItem("players", JSON.stringify(playersFromStorage.map((player: any) => {
+                if (!player.hidden) {
+                    player.hidden = true;
+                }
+                return player;
+            })))
+        };
+    }, []);
 
     const data: { image: { _text: string }; searchName: string } = JSON.parse(localStorage.getItem("gameData") || '{}');
 
@@ -34,7 +51,7 @@ const Score = () => {
         const value = e.currentTarget.value;
 
         if (value === "new-player") {
-            console.log("new-player");
+            setShowModal(true);
         } else {
             if (value !== ""){
                 setCurrentPlayer(value);
@@ -80,6 +97,18 @@ const Score = () => {
             localStorage.setItem("gameList", JSON.stringify(gameList));
     }
 
+    function addPlayerName(e: ChangeEvent<HTMLSelectElement>) {
+        setNewPlayer(e.currentTarget.value);
+    }
+
+    function onSavePlayerButtonClick() {
+        setCurrentPlayer(newPlayer);
+        // setScore("0");
+        const newPlayerObj = {"name": newPlayer, "hidden": false, score: 0};
+        setShowModal(false);
+        setPlayers(prevState => [...prevState, {...newPlayerObj}]);
+        setNewPlayer("");
+    }
     
     return (
         <>
@@ -88,8 +117,9 @@ const Score = () => {
                 <Text children={name}/>
                 <img src={url} alt={name}/>
             </div>
-            <PlayerSelect onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleSelectClick(e)}/>
+            <PlayerSelect players={players} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleSelectClick(e)}/>
             <PlayerScore players={players} score={score} onChange={(e: ChangeEvent<HTMLSelectElement>)=>addScore(e)}/>
+            {showModal && <ModalOverlay close={() => setShowModal(false)} content={<AddPlayerContent value={newPlayer} onChange={(e: ChangeEvent<HTMLSelectElement>)=>addPlayerName(e)} onClick={()=>{onSavePlayerButtonClick()}}/>} />}
         </>
     )
     

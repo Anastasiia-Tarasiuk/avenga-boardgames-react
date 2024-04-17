@@ -15,6 +15,8 @@ type Props = {
 
 
 const PlayerScore = ({players, onChange, score}: Props) => {
+    localStorage.setItem("players", JSON.stringify(players));
+    
     return (
         <ul>
             {players.filter((p: any) => !p.hidden).map((player: any) => (

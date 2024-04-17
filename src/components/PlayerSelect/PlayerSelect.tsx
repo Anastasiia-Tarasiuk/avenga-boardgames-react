@@ -1,12 +1,6 @@
 import PlayerSelectOption from "../PlayerSelectOption";
 
-const PlayerSelect = ({onChange}: any) => {
-    if (!localStorage.getItem("players")) {
-        localStorage.setItem("players", JSON.stringify([{name: "You", hidden: true}]))
-    }
-
-    const players = JSON.parse(localStorage.getItem("players") ||  '[{"name": "You", "hidden": "true"}]');
-
+const PlayerSelect = ({players, onChange}: any) => {
     const options = players.map((player: any) => {
         return <PlayerSelectOption key={player.name} value={player.name} children={player.name}/>;
     })
