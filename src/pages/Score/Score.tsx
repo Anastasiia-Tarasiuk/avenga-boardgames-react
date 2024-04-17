@@ -32,9 +32,8 @@ const Score = () => {
         return () => {
             const playersFromStorage = JSON.parse(localStorage.getItem("players") || initialPlayer);
             localStorage.setItem("players", JSON.stringify(playersFromStorage.map((player: any) => {
-                if (!player.hidden) {
-                    player.hidden = true;
-                }
+                player.hidden = true;
+                player.score = "0";
                 return player;
             })))
         };
@@ -73,6 +72,7 @@ const Score = () => {
 
     function addScore(e: ChangeEvent<HTMLSelectElement>) {
         setScore(e.currentTarget.value);
+        const date = localStorage.getItem("date") || Date.now().toString();
 
             gameList.forEach((game: any) => {
                 if (game.id === gameId) {
@@ -80,13 +80,17 @@ const Score = () => {
                         game.score = [];
                     }
 
+                    if (!game.score[date]) {
+                        game.score[date] = [];
+                    }
+
                     const scoreObj: ScoreObj = {
-                        date: localStorage.getItem("date"),
+                        date,
                         player: currentPlayer,
                         score: e.currentTarget.value
                     }
 
-                    const index = game.score.findIndex((score: any)=> score.date === localStorage.getItem("date") && score.player === currentPlayer);
+                    const index = game.score.findIndex((score: any)=> score.date === date && score.player === currentPlayer);
 
                     if (index === -1) {
                         game.score.push(scoreObj);
@@ -110,6 +114,14 @@ const Score = () => {
     }
 
     function onSavePlayerButtonClick() {
+        const index = players.findIndex(player => player.name.toLowerCase() === newPlayer.toLowerCase())
+
+        if (index !== -1) {
+            // handle case
+            return;
+        }
+
+        setScore("0");
         setCurrentPlayer(newPlayer);
         const newPlayerObj = {"name": newPlayer, "hidden": false, score: 0};
         setShowModal(false);
