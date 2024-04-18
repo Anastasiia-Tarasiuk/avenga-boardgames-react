@@ -92,10 +92,10 @@ const Score = () => {
 
                     const index = game.score.findIndex((score: any)=> score.date === date && score.player === currentPlayer);
 
-                    if (index === -1) {
-                        game.score.push(scoreObj);
+                if (index === -1) {
+                    game.score.push(scoreObj);
                     } else {
-                        game.score.splice(index, 1, scoreObj)
+                    game.score.splice(index, 1, scoreObj)
                     }
                 }
             })

@@ -9,6 +9,7 @@ import Settings from '../../pages/Settings';
 import NotFound from '../NotFound';
 import Game from '../../pages/Game';
 import Score from '../../pages/Score';
+import Stats from '../../pages/Stats';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="settings" element={<Settings />} />
         <Route path="game/:gameId" element={<Game/>}/>
         <Route path="score/:gameId" element={<Score/>}/>
+        <Route path="player/:playerId" element={<Stats/>}/>
         <Route path='*' element={<NotFound/>} />
       </Route>
   </Routes>
