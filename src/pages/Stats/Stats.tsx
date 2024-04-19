@@ -5,16 +5,18 @@ import Text from "../../components/Text";
 const Stats = () => {
     const { playerId } = useParams();
 
+    const winners = JSON.parse(localStorage.getItem("winners") || "{}");
     const games = JSON.parse(localStorage.getItem("gameList") || '[]');
     const scoreObj: any = {};
+    const items: any = [];
 
-    const items = games.map((game: any) => {
+    games.forEach((game: any) => {
         let best = 0;
-
+        
         if (!scoreObj.hasOwnProperty(game.id)) {
             scoreObj[game.id] = [];
         }
-       
+        
         if (game.score) {
             game.score.forEach((score: any) => {
                 if (score.player === playerId) {
@@ -24,18 +26,22 @@ const Stats = () => {
                         best =  Number(score.score);
                     }
                 }
-            })
-        }
+            }) 
+        } 
 
-        return scoreObj[game.id].length >0 && <li key={game.id}>
-            <Text children={game.searchName}/>
-            <img src={game.image._text} alt={game.searchName}/>
-            <ul>{scoreObj[game.id].map((item: any) => {
-                return <li key={item.date}>
-                    <p>{ parseDate(item.date)} <span>{item.score}</span> <span>{best === Number(item.score) ? "best" : ""}</span></p>
+        if (scoreObj[game.id].length > 0) {
+            items.push(
+                <li key={game.id}>
+                    <Text children={game.searchName}/>
+                    <img src={game.image._text} alt={game.searchName}/>
+                    <ul>{scoreObj[game.id].map((item: any) => {
+                        return <li key={item.date}>
+                            <p>{parseDate(item.date)} <span>{item.score}</span> <span>{best === Number(item.score) ? "Best score" : ""}</span> <span>{winners[item.date]?.player === item.player ? "The winner" : ""}</span></p>
+                        </li>
+                    })}</ul>
                 </li>
-            })}</ul>
-        </li>
+            )
+        }
     })
     
     function parseDate(date: string) {

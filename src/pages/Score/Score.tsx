@@ -92,12 +92,18 @@ const Score = () => {
 
                     const index = game.score.findIndex((score: any)=> score.date === date && score.player === currentPlayer);
 
-                if (index === -1) {
-                    game.score.push(scoreObj);
+                    if (index === -1) {
+                        game.score.push(scoreObj);
                     } else {
-                    game.score.splice(index, 1, scoreObj)
+                        game.score.splice(index, 1, scoreObj)
                     }
+
+
+                    saveWinner(date, Number(e.currentTarget.value), currentPlayer);
+
                 }
+
+
             })
 
             players.forEach(player => {
@@ -132,6 +138,20 @@ const Score = () => {
     function onInputClick(name: any) {
         setCurrentPlayer(name);
         setScore("");
+    }
+
+    function saveWinner(date: string, score: number, player: any) {
+        const winners = JSON.parse(localStorage.getItem("winners") || "{}");
+
+        if (!winners.hasOwnProperty(date)) {
+            winners[date] = {date, score, player};
+        } else {
+            if (winners[date].score < score) {
+                winners[date].score = score;
+                winners[date].player = player;
+            } 
+        }
+        localStorage.setItem("winners", JSON.stringify(winners));
     }
     
     return (
