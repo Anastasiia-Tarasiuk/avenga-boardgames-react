@@ -13,6 +13,7 @@ const SearchedList = ({list, onClick, children}: Props) => {
         const id = item._attributes.objectid || item.id;
         const name = item.name._text || item.searchName;
         return <ListItem key={id}>
+            {item.image?._text && <img src={item.image._text} alt={item.searchName}/>}
             <Text children={name}/>
             <Button id={id} buttonType="button" onClick={(e)=>onClick(e, id, name)} children={children}/>
         </ListItem>
