@@ -20,7 +20,7 @@ const MyList = () => {
             <PageHeading children="My list"/>
             {gameList.length > 0
                 ? <SearchedList list={gameList} onClick={(e)=>onAddScoreButtonClick(e)} children="Add score"/>
-                : <Text>No items</Text>}
+                : <Text children="No items"/>}
         </>
     )
 }

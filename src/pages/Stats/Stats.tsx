@@ -36,7 +36,7 @@ const Stats = () => {
                     <img src={game.image._text} alt={game.searchName}/>
                     <ul>{scoreObj[game.id].map((item: any) => {
                         return <li key={item.date}>
-                            <p>{parseDate(item.date)} <span>{item.score}</span> <span>{best === Number(item.score) ? "Best score" : ""}</span> <span>{winners[item.date]?.player === item.player ? "The winner" : ""}</span></p>
+                            <p>{parseDate(item.date)} <span>{item.score}</span> {best === Number(item.score) &&  <span>Best score</span>} {winners[item.date]?.player === item.player && <span>The winner</span> }</p>
                         </li>
                     })}</ul>
                 </li>

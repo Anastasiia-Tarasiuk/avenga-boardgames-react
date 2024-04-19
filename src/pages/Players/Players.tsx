@@ -19,8 +19,8 @@ const Players = () => {
         <>
             <PageHeading children="Players"/>
             {items.length > 0 
-            ? <ul>{items}</ul>
-            : <Text children="You"/>}
+                ? <ul>{items}</ul>
+                : <Text children="You"/>}
         </>
     )
 }
