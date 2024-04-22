@@ -2,24 +2,25 @@ import { useNavigate, useParams } from "react-router-dom";
 import Button from "../../components/Button";
 import { useState } from "react";
 import PageHeading from "../../components/PageHeading";
+import { GameData } from "../../../@types/types";
 
-const Game = () => {
+const Game = (): JSX.Element => {
     const navigate = useNavigate();
-    const gameList = JSON.parse(localStorage.getItem("gameList") || '[]');
+    const gameList: GameData[] = JSON.parse(localStorage.getItem("gameList") || '[]');
     
-    const { gameId } = useParams();
+    const { gameId } = useParams<{gameId: string}>();
 
-    const [desible, setDesible] = useState(gameList.some((item: any) => item.id === gameId));
+    const [desible, setDesible] = useState<boolean>(gameList.some((item: GameData) => item.id === gameId));
 
-    const data = JSON.parse(localStorage.getItem("gameData") || '{}');
+    const data: GameData = JSON.parse(localStorage.getItem("gameData") || '{}');
 
-    function onAddButtonClick() {
+    function onAddButtonClick(): void {
         gameList.push(data)
         localStorage.setItem("gameList", JSON.stringify(gameList));
         setDesible(true);
     }
 
-    function onAddScoreButtonClick() {
+    function onAddScoreButtonClick(): void {
         localStorage.setItem("gameData", JSON.stringify(data));
         localStorage.setItem("date", JSON.stringify(Date.now()));
         navigate(`/score/${gameId}`, { replace: false });
@@ -30,8 +31,8 @@ const Game = () => {
             <PageHeading children="Save game to list"/>
             <p>{data.name}</p>
             <img src={data.image} alt={data.name}/>
-            <Button onClick={() => onAddButtonClick()} buttonType="button" children="Add game" disabled={desible}/>
-            {desible && <Button onClick={() => onAddScoreButtonClick()} buttonType="button" children="Add score" disabled={false}/>}
+            <Button onClick={onAddButtonClick} buttonType="button" children="Add game" disabled={desible}/>
+            {desible && <Button onClick={onAddScoreButtonClick} buttonType="button" children="Add score" disabled={false}/>}
         </>
         
     )

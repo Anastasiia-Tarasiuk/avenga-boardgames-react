@@ -4,7 +4,7 @@ type Props = {
     inputType: string;
     name: string;
     children: string;
-    value: string;
+    value: string | number;
     onChange: ChangeEventHandler<HTMLInputElement>;
 };
 

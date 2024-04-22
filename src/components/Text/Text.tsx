@@ -2,7 +2,7 @@ type Props = {
     children: string;
 }
 
-const Text = ({children}: Props) => {
+const Text = ({children}: Props): JSX.Element => {
     return (
         <p>{children}</p>
     )

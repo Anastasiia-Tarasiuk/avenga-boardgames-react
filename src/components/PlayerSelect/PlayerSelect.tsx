@@ -1,19 +1,14 @@
 import { ChangeEventHandler } from "react";
 import PlayerSelectOption from "../PlayerSelectOption";
-
-type Player = {
-    name: string; 
-    hidden: boolean; 
-    score: string;
-}
+import { PlayerData } from "../../../@types/types";
 
 type Props = {
-    players: Player[];
+    players: PlayerData[];
     onChange: ChangeEventHandler<HTMLSelectElement>
 }
 
 const PlayerSelect = ({players, onChange}: Props): JSX.Element => {
-    const options = players.map((player: Player) => {
+    const options = players.map((player: PlayerData) => {
         return <PlayerSelectOption key={player.name} value={player.name} children={player.name}/>;
     })
 

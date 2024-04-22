@@ -1,15 +1,17 @@
 import { useNavigate } from "react-router-dom";
+import { MouseEvent } from "react";
 import Text from "../../components/Text";
 import SearchedList from "../../components/SearchedList";
 import PageHeading from "../../components/PageHeading";
+import { GameData } from "../../../@types/types";
 
-const MyList = () => {
-    const gameList = JSON.parse(localStorage.getItem("gameList") || '[]');
+const MyList = (): JSX.Element => {
+    const gameList: GameData[] = JSON.parse(localStorage.getItem("gameList") || '[]');
     const navigate = useNavigate();
     
-    function onAddScoreButtonClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-        const id = e.currentTarget.dataset.id;
-        const data = gameList.filter((game: any) => game.id === id);
+    function onAddScoreButtonClick(e: MouseEvent<HTMLButtonElement>): void {
+        const id: string | undefined = e.currentTarget.dataset.id;
+        const data: GameData[] = gameList.filter((game: GameData) => game.id === id);
         localStorage.setItem("gameData", JSON.stringify(data[0]));
         localStorage.setItem("date", JSON.stringify(Date.now()));
         navigate(`/score/${id}`, { replace: false });

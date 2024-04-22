@@ -5,9 +5,8 @@ type Props = {
     onChange: ChangeEventHandler<HTMLInputElement>;
     onClick: (name: string) => void;
     children: string;
-    score: string;
+    score: string | number;
 }
-
 
 const PlayerScoreItem = ({onChange, onClick, children, score}: Props): JSX.Element => {
     return (

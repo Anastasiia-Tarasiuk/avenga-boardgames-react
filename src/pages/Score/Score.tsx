@@ -6,24 +6,14 @@ import PlayerScore from "../../components/PlayerScore";
 import { ChangeEvent, useEffect, useState } from "react";
 import ModalOverlay from "../../components/ModalOverlay";
 import AddPlayerContent from "../../components/AddPlayerContent";
+import { PlayerData } from "../../../@types/types";
+import { ScoreData } from "../../../@types/types";
 
-type Player = {
-    name: string;
-    score: any;
-    hidden: boolean;
-};
-
-type ScoreObj = {
-    date: string | null;
-    player: string | null;
-    score: string;
-};
-
-const Score = () => {
-    const initialPlayer = '[{"name": "You", "hidden": "true", "score": "0"}]';
-    const { gameId } = useParams();
-    const [players, setPlayers] = useState<Player[]>(JSON.parse(localStorage.getItem("players") || initialPlayer));
-    const [currentPlayer, setCurrentPlayer] = useState<string | null>(null);
+const Score = (): JSX.Element => {
+    const initialPlayer: string = '[{"name": "You", "hidden": "true", "score": "0"}]';
+    const { gameId } = useParams<{gameId: string}>();
+    const [players, setPlayers] = useState<PlayerData[]>(JSON.parse(localStorage.getItem("players") || initialPlayer));
+    const [currentPlayer, setCurrentPlayer] = useState<string>("");
     const [score, setScore] = useState<string>("0");
     const [showModal, setShowModal] = useState<boolean>(false);
     const [newPlayer, setNewPlayer] = useState<string>("");
@@ -81,7 +71,7 @@ const Score = () => {
                         game.score[date] = [];
                     }
 
-                    const scoreObj: ScoreObj = {
+                    const scoreObj: ScoreData = {
                         date,
                         player: currentPlayer,
                         score: e.currentTarget.value

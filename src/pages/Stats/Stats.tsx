@@ -1,24 +1,33 @@
 import { useParams } from "react-router-dom";
 import PageHeading from "../../components/PageHeading";
 import Text from "../../components/Text";
+import { GameData, ScoreData } from "../../../@types/types";
+
+type ScoreObj = {
+    [key: string]: ScoreData[];
+}
+
+type Winner = {
+    [key: string]: ScoreData;
+}
 
 const Stats = () => {
-    const { playerId } = useParams();
+    const { playerId } = useParams<{playerId: string}>();
 
-    const winners = JSON.parse(localStorage.getItem("winners") || "{}");
-    const games = JSON.parse(localStorage.getItem("gameList") || '[]');
-    const scoreObj: any = {};
-    const items: any = [];
+    const winners: Winner = JSON.parse(localStorage.getItem("winners") || "{}");
+    const games: GameData[] = JSON.parse(localStorage.getItem("gameList") || '[]');
+    const scoreObj: ScoreObj = {};
+    const items: JSX.Element[] = [];
 
-    games.forEach((game: any) => {
-        let best = 0;
+    games.forEach((game: GameData) => {
+        let best: number = 0;
         
         if (!scoreObj.hasOwnProperty(game.id)) {
             scoreObj[game.id] = [];
         }
         
         if (game.score) {
-            game.score.forEach((score: any) => {
+            game.score.forEach((score: ScoreData) => {
                 if (score.player === playerId) {
                     scoreObj[game.id].push(score);
 
@@ -34,7 +43,7 @@ const Stats = () => {
                 <li key={game.id}>
                     <Text children={game.name}/>
                     <img src={game.image} alt={game.name}/>
-                    <ul>{scoreObj[game.id].map((item: any) => {
+                    <ul>{scoreObj[game.id].map((item: ScoreData) => {
                         return <li key={item.date}>
                             <p>{parseDate(item.date)} <span>{item.score}</span> {best === Number(item.score) &&  <span>Best score</span>} {winners[item.date]?.player === item.player && <span>The winner</span> }</p>
                         </li>
