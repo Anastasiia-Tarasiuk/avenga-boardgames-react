@@ -6,7 +6,6 @@ import PageHeading from "../../components/PageHeading";
 const MyList = () => {
     const gameList = JSON.parse(localStorage.getItem("gameList") || '[]');
     const navigate = useNavigate();
-    console.log(gameList)
     
     function onAddScoreButtonClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         const id = e.currentTarget.dataset.id;

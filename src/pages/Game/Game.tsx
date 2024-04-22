@@ -6,15 +6,12 @@ import PageHeading from "../../components/PageHeading";
 const Game = () => {
     const navigate = useNavigate();
     const gameList = JSON.parse(localStorage.getItem("gameList") || '[]');
-
+    
     const { gameId } = useParams();
 
     const [desible, setDesible] = useState(gameList.some((item: any) => item.id === gameId));
 
     const data = JSON.parse(localStorage.getItem("gameData") || '{}');
-    
-    const url = data.image._text;
-    const name = data.searchName;
 
     function onAddButtonClick() {
         gameList.push(data)
@@ -31,8 +28,8 @@ const Game = () => {
     return (
         <>
             <PageHeading children="Save game to list"/>
-            <p>{name}</p>
-            <img src={url} alt={name}/>
+            <p>{data.name}</p>
+            <img src={data.image} alt={data.name}/>
             <Button onClick={() => onAddButtonClick()} buttonType="button" children="Add game" disabled={desible}/>
             {desible && <Button onClick={() => onAddScoreButtonClick()} buttonType="button" children="Add score" disabled={false}/>}
         </>

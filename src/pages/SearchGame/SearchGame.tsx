@@ -26,7 +26,12 @@ const SearchGame = () => {
         
         fetchAPI(url)
         .then(data => {
-            setGames(data);
+            const dataToStore = data.map((item: any) => ({
+                "name": item.name._text,
+                "id": item._attributes.objectid})
+            )
+
+            setGames(dataToStore);
             setValue("");
         })
         .catch(error => {
@@ -37,10 +42,8 @@ const SearchGame = () => {
     function gameItemHandleClick(_: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string, name: string) {
         const url = `https://boardgamegeek.com/xmlapi/boardgame/${id}`;
         fetchAPI(url)
-        .then(data => {
-            data.searchName = name;
-            data.id = id;
-            localStorage.setItem("gameData", JSON.stringify(data));
+        .then((data: any) => {
+            localStorage.setItem("gameData", JSON.stringify({name, id, "image": data.image._text}));
             navigate(`/game/${id}`, { replace: false });
         })
     }

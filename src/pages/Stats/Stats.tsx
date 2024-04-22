@@ -32,8 +32,8 @@ const Stats = () => {
         if (scoreObj[game.id].length > 0) {
             items.push(
                 <li key={game.id}>
-                    <Text children={game.searchName}/>
-                    <img src={game.image._text} alt={game.searchName}/>
+                    <Text children={game.name}/>
+                    <img src={game.image} alt={game.name}/>
                     <ul>{scoreObj[game.id].map((item: any) => {
                         return <li key={item.date}>
                             <p>{parseDate(item.date)} <span>{item.score}</span> {best === Number(item.score) &&  <span>Best score</span>} {winners[item.date]?.player === item.player && <span>The winner</span> }</p>

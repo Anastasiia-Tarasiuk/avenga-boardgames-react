@@ -4,7 +4,7 @@ type Props = {
     children: ReactNode;
 }
 
-const ListItem = ({children}: Props) => {
+const ListItem = ({children}: Props): JSX.Element => {
     return (
         <li>{children}</li>
     )

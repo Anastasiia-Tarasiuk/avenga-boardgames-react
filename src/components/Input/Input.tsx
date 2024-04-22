@@ -8,7 +8,7 @@ type Props = {
     onChange: ChangeEventHandler<HTMLInputElement>;
 };
 
-const Input = ({inputType, name, children, value, onChange}: Props) => {
+const Input = ({inputType, name, children, value, onChange}: Props): JSX.Element => {
     return (
         <label>{children}
             <input type={inputType} name={name} value={value} onChange={onChange} />

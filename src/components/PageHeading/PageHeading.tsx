@@ -2,9 +2,9 @@ type Props = {
     children: string;
 }
 
-const PageHeading = ({children}: Props) => {
+const PageHeading = ({children}: Props): JSX.Element => {
     return (
-            <h2>{children}</h2>
+        <h2>{children}</h2>
     )
 }
 

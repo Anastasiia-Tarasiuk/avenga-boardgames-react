@@ -11,7 +11,7 @@ import Game from '../../pages/Game';
 import Score from '../../pages/Score';
 import Stats from '../../pages/Stats';
 
-function App() {
+function App(): JSX.Element {
   return (
     <Routes>
       <Route path="/" element={<SharedLayout />}>

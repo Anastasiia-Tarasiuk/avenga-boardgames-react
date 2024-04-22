@@ -8,7 +8,7 @@ type Props = {
     disabled?: boolean;
 };
 
-const Button = ({buttonType, id, children, disabled, onClick}: Props) => {
+const Button = ({buttonType, id, children, disabled, onClick}: Props): JSX.Element => {
     return (
         <button data-id={id} onClick={onClick} type={buttonType} disabled={disabled}>{children}</button>
     )

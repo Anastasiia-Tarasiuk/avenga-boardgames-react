@@ -39,10 +39,7 @@ const Score = () => {
         };
     }, []);
 
-    const data: { image: { _text: string }; searchName: string } = JSON.parse(localStorage.getItem("gameData") || '{}');
-
-    const url: string = data.image._text;
-    const name: string = data.searchName;
+    const data: { image:  string ; name: string, id: string } = JSON.parse(localStorage.getItem("gameData") || '{}');
 
     const gameList = JSON.parse(localStorage.getItem("gameList") || '[]');
 
@@ -70,7 +67,7 @@ const Score = () => {
         setPlayers(newPlayers);
     }
 
-    function addScore(e: ChangeEvent<HTMLSelectElement>) {
+    function addScore(e: ChangeEvent<HTMLInputElement>) {
         setScore(e.currentTarget.value);
         const date = localStorage.getItem("date") || Date.now().toString();
 
@@ -98,12 +95,8 @@ const Score = () => {
                         game.score.splice(index, 1, scoreObj)
                     }
 
-
                     saveWinner(date, Number(e.currentTarget.value), currentPlayer);
-
                 }
-
-
             })
 
             players.forEach(player => {
@@ -115,7 +108,7 @@ const Score = () => {
             localStorage.setItem("gameList", JSON.stringify(gameList));
     }
 
-    function addPlayerName(e: ChangeEvent<HTMLSelectElement>) {
+    function addPlayerName(e: ChangeEvent<HTMLInputElement>) {
         setNewPlayer(e.currentTarget.value);
     }
 
@@ -135,7 +128,7 @@ const Score = () => {
         setNewPlayer("");
     }
 
-    function onInputClick(name: any) {
+    function onInputClick(name: string) {
         setCurrentPlayer(name);
         setScore("");
     }
@@ -158,12 +151,12 @@ const Score = () => {
         <>
             <PageHeading children="Set score"/>
             <div>
-                <Text children={name}/>
-                <img src={url} alt={name}/>
+                <Text children={data.name}/>
+                <img src={data.image} alt={data.name}/>
             </div>
-            <PlayerSelect players={players} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleSelectClick(e)}/>
-            <PlayerScore onClick={(name:any)=>onInputClick(name)} players={players} currentPlayer={currentPlayer} score={score} onChange={(e: ChangeEvent<HTMLSelectElement>)=>addScore(e)}/>
-            {showModal && <ModalOverlay close={() => setShowModal(false)} content={<AddPlayerContent value={newPlayer} onChange={(e: ChangeEvent<HTMLSelectElement>)=>addPlayerName(e)} onClick={()=>{onSavePlayerButtonClick()}}/>} />}
+            <PlayerSelect players={players} onChange={(e: ChangeEvent<HTMLSelectElement>) => handleSelectClick(e)}/>
+            <PlayerScore onClick={(name: string)=>onInputClick(name)} players={players} currentPlayer={currentPlayer} score={score} onChange={(e: ChangeEvent<HTMLInputElement>)=>addScore(e)}/>
+            {showModal && <ModalOverlay close={() => setShowModal(false)} content={<AddPlayerContent value={newPlayer} onChange={(e: ChangeEvent<HTMLInputElement>)=>addPlayerName(e)} onClick={()=>{onSavePlayerButtonClick()}}/>} />}
         </>
     )
     

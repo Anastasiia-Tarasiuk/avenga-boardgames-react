@@ -11,7 +11,7 @@ type Props = {
     onChange: ChangeEventHandler<HTMLInputElement>;
 };
 
-const Filter = ({inputType, name, value, children, onChange, onSubmit}: Props) => {
+const Filter = ({inputType, name, value, children, onChange, onSubmit}: Props): JSX.Element => {
 
     return (
         <form onSubmit={onSubmit}>
