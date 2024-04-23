@@ -25,7 +25,7 @@ const Score = (): JSX.Element => {
     useEffect(() => {
         return () => {
             const playersFromStorage = JSON.parse(localStorage.getItem("players") || initialPlayer);
-            localStorage.setItem("players", JSON.stringify(playersFromStorage.map((player: any) => {
+            localStorage.setItem("players", JSON.stringify(playersFromStorage.map((player: PlayerData) => {
                 player.hidden = true;
                 player.score = "0";
                 return player;

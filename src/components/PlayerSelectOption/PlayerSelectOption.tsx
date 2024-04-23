@@ -1,11 +1,16 @@
 type Props = {
     value: string;
     children: string;
+    isShown?: boolean
 }
 
-const PlayerSelectOption = ({value, children}: Props): JSX.Element => {
+const PlayerSelectOption = ({value, children, isShown}: Props): JSX.Element => {
     return (
-        <option value={value}>{children}</option>
+        <>
+            {isShown 
+            ? <option value={value} disabled>{children}</option>
+            : <option value={value}>{children}</option>} 
+        </>
     )
 }
 

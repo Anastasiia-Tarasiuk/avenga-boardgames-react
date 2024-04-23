@@ -9,7 +9,7 @@ type Props = {
 
 const PlayerSelect = ({players, onChange}: Props): JSX.Element => {
     const options = players.map((player: PlayerData) => {
-        return <PlayerSelectOption key={player.name} value={player.name} children={player.name}/>;
+        return <PlayerSelectOption key={player.name} value={player.name} children={player.name} isShown={!player.hidden}/>;
     })
 
     return (
