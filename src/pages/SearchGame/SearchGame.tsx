@@ -45,7 +45,6 @@ const SearchGame = () => {
         const url = `https://boardgamegeek.com/xmlapi/boardgame/${id}`;
         fetchAPI(url)
         .then((data: any) => {
-            console.log(data)
             localStorage.setItem("gameData", JSON.stringify({name, id, "image": data.image._text}));
             navigate(`/game/${id}`, { replace: false });
         })

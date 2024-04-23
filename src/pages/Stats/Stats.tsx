@@ -2,6 +2,9 @@ import { useParams } from "react-router-dom";
 import PageHeading from "../../components/PageHeading";
 import Text from "../../components/Text";
 import { GameData, ScoreData } from "../../../@types/types";
+import Image from "../../components/Image";
+import no_image from "../../assets/no_image.jpg";
+import useReady from "../../hooks/useReady";
 
 type ScoreObj = {
     [key: string]: ScoreData[];
@@ -11,8 +14,9 @@ type Winner = {
     [key: string]: ScoreData;
 }
 
-const Stats = () => {
-    const { playerId } = useParams<{playerId: string}>();
+const Stats = (): JSX.Element => {
+    const {playerId} = useParams<{playerId: string}>();
+    const {readyState} = useReady();
 
     const winners: Winner = JSON.parse(localStorage.getItem("winners") || "{}");
     const games: GameData[] = JSON.parse(localStorage.getItem("gameList") || '[]');
@@ -42,7 +46,7 @@ const Stats = () => {
             items.push(
                 <li key={game.id}>
                     <Text children={game.name}/>
-                    <img src={game.image} alt={game.name}/>
+                    <Image url={game.image} alt={game.name} urlDefault={no_image} state={readyState}/>
                     <ul>{scoreObj[game.id].map((item: ScoreData) => {
                         return <li key={item.date}>
                             <p>{parseDate(item.date)} <span>{item.score}</span> {best === Number(item.score) &&  <span>Best score</span>} {winners[item.date]?.player === item.player && <span>The winner</span> }</p>

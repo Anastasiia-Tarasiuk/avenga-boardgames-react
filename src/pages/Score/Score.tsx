@@ -8,6 +8,9 @@ import ModalOverlay from "../../components/ModalOverlay";
 import AddPlayerContent from "../../components/AddPlayerContent";
 import { PlayerData } from "../../../@types/types";
 import { ScoreData } from "../../../@types/types";
+import Image from "../../components/Image";
+import no_image from "../../assets/no_image.jpg";
+import useReady from "../../hooks/useReady";
 
 const Score = (): JSX.Element => {
     const initialPlayer: string = '[{"name": "You", "hidden": "true", "score": "0"}]';
@@ -17,6 +20,7 @@ const Score = (): JSX.Element => {
     const [score, setScore] = useState<string>("0");
     const [showModal, setShowModal] = useState<boolean>(false);
     const [newPlayer, setNewPlayer] = useState<string>("");
+    const {readyState} = useReady();
 
     useEffect(() => {
         return () => {
@@ -142,7 +146,7 @@ const Score = (): JSX.Element => {
             <PageHeading children="Set score"/>
             <div>
                 <Text children={data.name}/>
-                <img src={data.image} alt={data.name}/>
+                <Image url={data.image} alt={data.name} urlDefault={no_image} state={readyState}/>
             </div>
             <PlayerSelect players={players} onChange={(e: ChangeEvent<HTMLSelectElement>) => handleSelectClick(e)}/>
             <PlayerScore onClick={(name: string)=>onInputClick(name)} players={players} currentPlayer={currentPlayer} score={score} onChange={(e: ChangeEvent<HTMLInputElement>)=>addScore(e)}/>

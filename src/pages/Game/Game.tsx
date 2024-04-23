@@ -3,8 +3,14 @@ import Button from "../../components/Button";
 import { useState } from "react";
 import PageHeading from "../../components/PageHeading";
 import { GameData } from "../../../@types/types";
+import Image from "../../components/Image";
+import useReady from "../../hooks/useReady";
+import no_image from "../../assets/no_image.jpg";
+
 
 const Game = (): JSX.Element => {
+    const {readyState} = useReady();
+    
     const navigate = useNavigate();
     const gameList: GameData[] = JSON.parse(localStorage.getItem("gameList") || '[]');
     
@@ -30,7 +36,7 @@ const Game = (): JSX.Element => {
         <>
             <PageHeading children="Save game to list"/>
             <p>{data.name}</p>
-            <img src={data.image} alt={data.name}/>
+            <Image url={data.image} alt={data.name} urlDefault={no_image} state={readyState}/>
             <Button onClick={onAddButtonClick} buttonType="button" children="Add game" disabled={desible}/>
             {desible && <Button onClick={onAddScoreButtonClick} buttonType="button" children="Add score" disabled={false}/>}
         </>
