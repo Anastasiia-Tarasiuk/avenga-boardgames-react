@@ -2,10 +2,9 @@ import ListItem from "../ListItem";
 import Text from "../Text";
 import Button from "../Button";
 import Image from "../Image";
-import { MouseEvent, useState } from "react";
+import { MouseEvent } from "react";
 import { GameData } from "../../../@types/types";
 import no_image from "../../assets/no_image.jpg"
-
 import useReady from "../../hooks/useReady";
 
 type Props = {
