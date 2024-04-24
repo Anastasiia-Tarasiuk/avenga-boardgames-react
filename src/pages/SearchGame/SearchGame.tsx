@@ -51,7 +51,8 @@ const SearchGame = () => {
         })
     }
 
-    function gameItemHandleClick(_: MouseEvent<HTMLButtonElement>, id: string): void {
+    function gameItemHandleClick(e: MouseEvent<HTMLButtonElement>): void {
+        const id: string | undefined = e.currentTarget.dataset.id;
         const data: GameData[] = games.filter((game: GameData) => game.id === id);
         localStorage.setItem("gameData", JSON.stringify(data[0]));
         navigate(`/game/${id}`, { replace: false });
@@ -61,7 +62,7 @@ const SearchGame = () => {
         <>
             <PageHeading children="Add game"/>
             <Filter onSubmit={e => handleSubmit(e)} inputType="text" name="search" value={value} onChange={e => handleChange(e)} children="Type game name"/>
-            {games.length > 0 && <SearchedList onClick={(e, id) => gameItemHandleClick(e, id)} list={games} children="See more"/> }
+            {games.length > 0 && <SearchedList onClick={(e) => gameItemHandleClick(e)} list={games} children="See more"/> }
         </>
 
     )
