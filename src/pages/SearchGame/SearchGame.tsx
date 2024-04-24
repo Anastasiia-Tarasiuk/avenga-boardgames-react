@@ -11,6 +11,8 @@ const SearchGame = () => {
     const [value, setValue] = useState<string>("");
     const [games, setGames] = useState<GameData[] | []>([]);
 
+    // const dataToStore: GameData[] = [];
+
     const navigate = useNavigate();
 
     function handleChange(e: ChangeEvent<HTMLInputElement>): void {
@@ -23,38 +25,43 @@ const SearchGame = () => {
         if (!value) {
             return;
         }
+        setGames([]);
 
         const url: string = `https://boardgamegeek.com/xmlapi/search?search=${value}`;
         
         fetchAPI(url)
         .then(data => {
-            const dataToStore: GameData[] = data.map((item: any) => ({
-                "name": item.name._text,
-                "id": item._attributes.objectid})
-            )
+            data.forEach((item: any, index: number)=>{
+                const url = `https://boardgamegeek.com/xmlapi/boardgame/${item._attributes.objectid}`;
 
-            setGames(dataToStore);
-            setValue("");
+                fetchAPI(url).then((game: any)=>{
+                    data[index].image = game.image._text;
+
+                    setGames(prevState => [...prevState, {...{
+                        "name": data[index].name._text,
+                        "id": data[index]._attributes.objectid,
+                        "image": data[index].image
+                    }}]);
+                    setValue("");
+                })
+            })
         })
         .catch(error => {
             console.error(error);
         })
     }
 
-    function gameItemHandleClick(_: MouseEvent<HTMLButtonElement>, id: string, name: string): void {
-        const url = `https://boardgamegeek.com/xmlapi/boardgame/${id}`;
-        fetchAPI(url)
-        .then((data: any) => {
-            localStorage.setItem("gameData", JSON.stringify({name, id, "image": data.image._text}));
-            navigate(`/game/${id}`, { replace: false });
-        })
+    function gameItemHandleClick(_: MouseEvent<HTMLButtonElement>, id: string): void {
+        const data: GameData[] = games.filter((game: GameData) => game.id === id);
+        localStorage.setItem("gameData", JSON.stringify(data[0]));
+        navigate(`/game/${id}`, { replace: false });
     }
 
     return (
         <>
             <PageHeading children="Add game"/>
             <Filter onSubmit={e => handleSubmit(e)} inputType="text" name="search" value={value} onChange={e => handleChange(e)} children="Type game name"/>
-            {games.length > 0 && <SearchedList onClick={(e, id, name) => gameItemHandleClick(e, id, name)} list={games} children="See more"/> }
+            {games.length > 0 && <SearchedList onClick={(e, id) => gameItemHandleClick(e, id)} list={games} children="See more"/> }
         </>
 
     )

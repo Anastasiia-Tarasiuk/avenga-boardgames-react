@@ -6,9 +6,10 @@ export type PlayerData = {
 
 export type GameData = {
     id: string; 
-    image?: string; 
+    image: string; 
     name: string;
     score?: ScoreData[];
+    isFavourite?: boolean;
 }
 
 export type ScoreData = {
