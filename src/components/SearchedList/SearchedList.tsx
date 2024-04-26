@@ -1,16 +1,12 @@
 import ListItem from "../ListItem";
-import Text from "../Text";
-import Button from "../Button";
-import Image from "../Image";
 import { MouseEvent } from "react";
 import { GameData } from "../../../@types/types";
-import no_image from "../../assets/no_image.jpg"
 import useReady from "../../hooks/useReady";
 
 type Props = {
     list: GameData[];
     onClick: (e: MouseEvent<HTMLButtonElement>) => void;
-    children: string;
+    children: string
 }
 
 const SearchedList = ({list, onClick, children}: Props): JSX.Element => {
@@ -23,22 +19,11 @@ const SearchedList = ({list, onClick, children}: Props): JSX.Element => {
         })
     }
 
-    function saveToFavourites(e: MouseEvent, game: GameData) {
-        e.currentTarget.setAttribute("disabled", "");
-        favourites.push(game);
-        localStorage.setItem("favourites", JSON.stringify(favourites));
-    }
-
     const items = list.map((item: GameData) => {
         const id = item.id;
         const name = item.name;
         
-        return <ListItem key={id}>
-            <Image state={readyState} url={item.image} urlDefault={no_image} alt={name} />
-            <Text children={name}/>
-            <Button id={id} buttonType="button" onClick={(e)=>onClick(e)} children={children}/>
-            <Button id={id} buttonType="button" onClick={(e)=>saveToFavourites(e, item)} children="<3" disabled={isFavourite(id)}/>
-        </ListItem>
+        return <ListItem key={id} state={readyState} url={item.image} name={name} id={id} children={children} disabled={isFavourite(id)} item={item} onClick={onClick}/>
     })
 
     return (

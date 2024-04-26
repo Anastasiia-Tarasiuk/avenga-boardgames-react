@@ -6,7 +6,7 @@ import PlayerScore from "../../components/PlayerScore";
 import { ChangeEvent, useEffect, useState } from "react";
 import ModalOverlay from "../../components/ModalOverlay";
 import AddPlayerContent from "../../components/AddPlayerContent";
-import { PlayerData } from "../../../@types/types";
+import { GameData, PlayerData } from "../../../@types/types";
 import { ScoreData } from "../../../@types/types";
 import Image from "../../components/Image";
 import no_image from "../../assets/no_image.jpg";
@@ -52,7 +52,7 @@ const Score = (): JSX.Element => {
     }
 
     function showPlayer(value: string) {
-        const newPlayers = players.map((player: any) => {
+        const newPlayers = players.map((player: PlayerData) => {
             if (player.name.toLowerCase() === value.toLowerCase()) {
                 player.hidden = false;
             }
@@ -65,14 +65,11 @@ const Score = (): JSX.Element => {
         setScore(e.currentTarget.value);
         const date = localStorage.getItem("date") || Date.now().toString();
 
-            gameList.forEach((game: any) => {
+            gameList.forEach((game: GameData) => {
+
                 if (game.id === gameId) {
                     if (!game.score) {
                         game.score = [];
-                    }
-
-                    if (!game.score[date]) {
-                        game.score[date] = [];
                     }
 
                     const scoreObj: ScoreData = {
@@ -81,7 +78,7 @@ const Score = (): JSX.Element => {
                         score: e.currentTarget.value
                     }
 
-                    const index = game.score.findIndex((score: any)=> score.date === date && score.player === currentPlayer);
+                    const index = game.score.findIndex((score: ScoreData)=> score.date === date && score.player === currentPlayer);
 
                     if (index === -1) {
                         game.score.push(scoreObj);
@@ -127,7 +124,7 @@ const Score = (): JSX.Element => {
         setScore("");
     }
 
-    function saveWinner(date: string, score: number, player: any) {
+    function saveWinner(date: string, score: number, player: string) {
         const winners = JSON.parse(localStorage.getItem("winners") || "{}");
 
         if (!winners.hasOwnProperty(date)) {
