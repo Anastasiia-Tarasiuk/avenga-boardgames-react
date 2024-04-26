@@ -37,7 +37,7 @@ const SearchedList = ({list, onClick, children}: Props): JSX.Element => {
             <Image state={readyState} url={item.image} urlDefault={no_image} alt={name} />
             <Text children={name}/>
             <Button id={id} buttonType="button" onClick={(e)=>onClick(e)} children={children}/>
-            {!isFavourite(id) && <Button id={id} buttonType="button" onClick={(e)=>saveToFavourites(e, item)} children="<3"/>}
+            <Button id={id} buttonType="button" onClick={(e)=>saveToFavourites(e, item)} children="<3" disabled={isFavourite(id)}/>
         </ListItem>
     })
 

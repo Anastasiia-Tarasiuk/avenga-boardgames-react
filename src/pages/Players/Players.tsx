@@ -11,17 +11,18 @@ const Players = (): JSX.Element => {
         navigate(`/player/${playerId}`, { replace: false });
     }
 
-    const players: PlayerData[] = JSON.parse(localStorage.getItem("players") || '[]');
+    const players: PlayerData[] = JSON.parse(localStorage.getItem("players") || '[{"name": "You", "hidden": true, "score": "0"}]');
     const items = players.map((player: PlayerData)=> {
-        return <li key={player.name}><Text children={player.name}/><Button buttonType="button" children="See score" onClick={()=> onSeeScoreButtonClick(player.name)} /></li>
+        return <li key={player.name}>
+            <Text children={player.name}/>
+            <Button buttonType="button" children="See score" onClick={()=> onSeeScoreButtonClick(player.name)} />
+        </li>
     })
 
     return (
         <>
             <PageHeading children="Players"/>
-            {items.length > 0 
-                ? <ul>{items}</ul>
-                : <Text children="You"/>}
+            <ul>{items}</ul>
         </>
     )
 }

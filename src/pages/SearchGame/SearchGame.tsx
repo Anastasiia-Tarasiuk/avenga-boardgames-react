@@ -6,12 +6,12 @@ import SearchedList from "../../components/SearchedList";
 import { useNavigate } from "react-router-dom";
 import PageHeading from "../../components/PageHeading";
 import { GameData } from "../../../@types/types";
+import Text from "../../components/Text";
 
 const SearchGame = () => {
     const [value, setValue] = useState<string>("");
     const [games, setGames] = useState<GameData[] | []>([]);
-
-    // const dataToStore: GameData[] = [];
+    const [loader, setLoader] = useState<boolean>(false);
 
     const navigate = useNavigate();
 
@@ -21,10 +21,12 @@ const SearchGame = () => {
 
     function handleSubmit(e: SyntheticEvent): void {
         e.preventDefault();
+        setLoader(true);
 
         if (!value) {
             return;
         }
+
         setGames([]);
 
         const url: string = `https://boardgamegeek.com/xmlapi/search?search=${value}`;
@@ -45,6 +47,7 @@ const SearchGame = () => {
                     setValue("");
                 })
             })
+            setLoader(false);
         })
         .catch(error => {
             console.error(error);
@@ -62,6 +65,7 @@ const SearchGame = () => {
         <>
             <PageHeading children="Add game"/>
             <Filter onSubmit={e => handleSubmit(e)} inputType="text" name="search" value={value} onChange={e => handleChange(e)} children="Type game name"/>
+            {loader && <Text children="Loading..." />}
             {games.length > 0 && <SearchedList onClick={(e) => gameItemHandleClick(e)} list={games} children="See more"/> }
         </>
 
