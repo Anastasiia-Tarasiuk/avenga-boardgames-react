@@ -3,7 +3,6 @@ import PageHeading from "../../components/PageHeading";
 import Text from "../../components/Text";
 import { GameData, ScoreData } from "../../../@types/types";
 import Image from "../../components/Image";
-import no_image from "../../assets/no_image.jpg";
 import useReady from "../../hooks/useReady";
 
 type ScoreObj = {
@@ -46,7 +45,7 @@ const Stats = (): JSX.Element => {
             items.push(
                 <li key={game.id}>
                     <Text children={game.name}/>
-                    <Image url={game.image} alt={game.name} urlDefault={no_image} state={readyState}/>
+                    <Image url={game.image} alt={game.name} state={readyState}/>
                     <ul>{scoreObj[game.id].map((item: ScoreData) => {
                         return <li key={item.date}>
                             <p>{parseDate(item.date)} <span>{item.score}</span> {best === Number(item.score) &&  <span>Best score</span>} {winners[item.date]?.player === item.player && <span>The winner</span> }</p>

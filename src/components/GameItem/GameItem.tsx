@@ -2,7 +2,6 @@ import { MouseEvent } from "react";
 import Image from "../Image";
 import Text from "../Text";
 import Button from "../Button";
-import no_image from "../../assets/no_image.jpg";
 import { GameData } from "../../../@types/types";
 
 type Props = {
@@ -35,7 +34,7 @@ const ListItem = ({state, url, name, id, children, item, onClick, isImagesLoaded
 
     return (
         <li>
-            <Image state={state} url={url} urlDefault={no_image} alt={name} isImagesLoaded={isImagesLoaded}/>
+            <Image state={state} url={url} alt={name} isImagesLoaded={isImagesLoaded}/>
             <Text children={name}/>
             <Button id={id} buttonType="button" onClick={(e)=>onClick(e)} children={children}/>
             {!isFavouritePage && <Button id={id} buttonType="button" onClick={(e)=>saveItem(e, item, favourites, "favourites")} children="<3" disabled={isDesabled(id, favourites)}/>}

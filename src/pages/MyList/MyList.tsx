@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { MouseEvent } from "react";
+import { MouseEvent, useState } from "react";
 import Text from "../../components/Text";
 import SearchedList from "../../components/GameList";
 import PageHeading from "../../components/PageHeading";

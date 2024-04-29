@@ -30,45 +30,52 @@ const SearchGame = () => {
         }
 
         setGames([]);
-
         const url: string = `https://boardgamegeek.com/xmlapi/search?search=${value}`;
-        
-        fetchAPI(url)
-        .then((data: any) => {
-            console.log(data)
-            data.forEach ((game: any) => {
-                setGames(prevState => [...prevState, {...{
+
+        const fetchPromise = new Promise((resolve) =>{
+            return resolve(fetchAPI(url));
+        })
+
+        fetchPromise.then((data: any) => {
+            let defaultGames: any[] = [];
+
+            if (!Array.isArray(data)) {
+                defaultGames.push ({
+                    "name": data.name._text,
+                    "id": data._attributes.objectid,
+                })
+            } else {
+                defaultGames = data.map((game:any) => ({
                     "name": game.name._text,
                     "id": game._attributes.objectid,
-                    "image": no_image
-                }}]);
-            } )
+                    "image": no_image,
+                }))
+            }
 
-            const promises = data.map((item: any, index: number)=>{
-                const url = `https://boardgamegeek.com/xmlapi/boardgame/${item._attributes.objectid}`;
+            setGames(defaultGames);
+            setIsImagesLoaded(true);
+            return defaultGames;
+        }).then((defaultGames) => {
+            setIsImagesLoaded(false);
+            const promises = defaultGames.map((item: any)=>{
+                const url = `https://boardgamegeek.com/xmlapi/boardgame/${item.id}`;
 
                 return new Promise((resolve)=>{
                     resolve(fetchAPI(url));
                 })
             })
 
-            Promise.all(promises).then((newGames) => {            
-                // console.log(newGames)    
-                // console.log(games) 
+            Promise.all(promises).then((newGames) => {
+                newGames.forEach((newGame: any, index: number)=> {
+                    defaultGames[index].image=newGame.image._text;
+                })
                 setIsImagesLoaded(true);
-                // newGames.forEach((newGame, index)=> {
-                //     games[index].image=newGame.image._text;
-                // })
-                // setGames(games)
-                
+                setGames(defaultGames);
             });
-
 
             setValue("");
             setLoader(false);
-            
-        })
-        .catch(error => {
+        }).catch(error => {
             console.error(error);
         })
     }
@@ -87,7 +94,6 @@ const SearchGame = () => {
             {loader && <Text children="Loading..." />}
             {games.length > 0 && <SearchedList onClick={(e) => gameItemHandleClick(e)} list={games} isImagesLoaded={isImagesLoaded} children="See more"/> }
         </>
-
     )
 }
 

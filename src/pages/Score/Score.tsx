@@ -9,7 +9,6 @@ import AddPlayerContent from "../../components/AddPlayerContent";
 import { GameData, PlayerData } from "../../../@types/types";
 import { ScoreData } from "../../../@types/types";
 import Image from "../../components/Image";
-import no_image from "../../assets/no_image.jpg";
 import useReady from "../../hooks/useReady";
 
 const Score = (): JSX.Element => {
@@ -143,7 +142,7 @@ const Score = (): JSX.Element => {
             <PageHeading children="Set score"/>
             <div>
                 <Text children={data.name}/>
-                <Image url={data.image} alt={data.name} urlDefault={no_image} state={readyState}/>
+                <Image url={data.image} alt={data.name} state={readyState}/>
             </div>
             <PlayerSelect players={players} onChange={(e: ChangeEvent<HTMLSelectElement>) => handleSelectClick(e)}/>
             <PlayerScore onClick={(name: string)=>onInputClick(name)} players={players} currentPlayer={currentPlayer} score={score} onChange={(e: ChangeEvent<HTMLInputElement>)=>addScore(e)}/>
