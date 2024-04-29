@@ -2,16 +2,18 @@ import { ChangeEvent, SyntheticEvent, useState } from "react";
 import { MouseEvent } from "react";
 import fetchAPI from "../../utils/gameFetch";
 import Filter from "../../components/Filter";
-import SearchedList from "../../components/SearchedList";
+import SearchedList from "../../components/GameList";
 import { useNavigate } from "react-router-dom";
 import PageHeading from "../../components/PageHeading";
 import { GameData } from "../../../@types/types";
 import Text from "../../components/Text";
+import no_image from "../../assets/no_image.jpg";
 
 const SearchGame = () => {
     const [value, setValue] = useState<string>("");
     const [games, setGames] = useState<GameData[] | []>([]);
     const [loader, setLoader] = useState<boolean>(false);
+    const [isImagesLoaded, setIsImagesLoaded] = useState<boolean>(false);
 
     const navigate = useNavigate();
 
@@ -32,22 +34,39 @@ const SearchGame = () => {
         const url: string = `https://boardgamegeek.com/xmlapi/search?search=${value}`;
         
         fetchAPI(url)
-        .then(data => {
-            data.forEach((item: any, index: number)=>{
+        .then((data: any) => {
+            console.log(data)
+            data.forEach ((game: any) => {
+                setGames(prevState => [...prevState, {...{
+                    "name": game.name._text,
+                    "id": game._attributes.objectid,
+                    "image": no_image
+                }}]);
+            } )
+
+            const promises = data.map((item: any, index: number)=>{
                 const url = `https://boardgamegeek.com/xmlapi/boardgame/${item._attributes.objectid}`;
 
-                fetchAPI(url).then((game: any)=>{
-                    data[index].image = game.image._text;
-
-                    setGames(prevState => [...prevState, {...{
-                        "name": data[index].name._text,
-                        "id": data[index]._attributes.objectid,
-                        "image": data[index].image
-                    }}]);
-                    setValue("");
+                return new Promise((resolve)=>{
+                    resolve(fetchAPI(url));
                 })
             })
+
+            Promise.all(promises).then((newGames) => {            
+                // console.log(newGames)    
+                // console.log(games) 
+                setIsImagesLoaded(true);
+                // newGames.forEach((newGame, index)=> {
+                //     games[index].image=newGame.image._text;
+                // })
+                // setGames(games)
+                
+            });
+
+
+            setValue("");
             setLoader(false);
+            
         })
         .catch(error => {
             console.error(error);
@@ -66,7 +85,7 @@ const SearchGame = () => {
             <PageHeading children="Add game"/>
             <Filter onSubmit={e => handleSubmit(e)} inputType="text" name="search" value={value} onChange={e => handleChange(e)} children="Type game name"/>
             {loader && <Text children="Loading..." />}
-            {games.length > 0 && <SearchedList onClick={(e) => gameItemHandleClick(e)} list={games} children="See more"/> }
+            {games.length > 0 && <SearchedList onClick={(e) => gameItemHandleClick(e)} list={games} isImagesLoaded={isImagesLoaded} children="See more"/> }
         </>
 
     )

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { MouseEvent } from "react";
 import Text from "../../components/Text";
-import SearchedList from "../../components/SearchedList";
+import SearchedList from "../../components/GameList";
 import PageHeading from "../../components/PageHeading";
 import { GameData } from "../../../@types/types";
 

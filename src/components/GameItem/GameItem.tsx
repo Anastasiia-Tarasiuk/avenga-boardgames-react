@@ -13,9 +13,10 @@ type Props = {
     onClick: (e: MouseEvent<HTMLButtonElement>)=> void;
     children: string;
     item: GameData;
+    isImagesLoaded?: any;
 }
 
-const ListItem = ({state, url = no_image, name, id, children, item, onClick}: Props): JSX.Element => {
+const ListItem = ({state, url, name, id, children, item, onClick, isImagesLoaded}: Props): JSX.Element => {
     const isFavouritePage: boolean = document.URL.includes("favourites");
     const favourites: GameData[] = JSON.parse(localStorage.getItem("favourites") || '[]');
     const gameList: GameData[] = JSON.parse(localStorage.getItem("gameList") || '[]');
@@ -34,7 +35,7 @@ const ListItem = ({state, url = no_image, name, id, children, item, onClick}: Pr
 
     return (
         <li>
-            <Image state={state} url={url} urlDefault={no_image} alt={name} />
+            <Image state={state} url={url} urlDefault={no_image} alt={name} isImagesLoaded={isImagesLoaded}/>
             <Text children={name}/>
             <Button id={id} buttonType="button" onClick={(e)=>onClick(e)} children={children}/>
             {!isFavouritePage && <Button id={id} buttonType="button" onClick={(e)=>saveItem(e, item, favourites, "favourites")} children="<3" disabled={isDesabled(id, favourites)}/>}

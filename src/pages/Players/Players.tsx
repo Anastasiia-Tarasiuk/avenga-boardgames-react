@@ -1,8 +1,7 @@
 import PageHeading from "../../components/PageHeading";
-import Text from "../../components/Text";
-import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import { PlayerData } from "../../../@types/types";
+import PlayerItem from "../../components/PlayerItem";
 
 const Players = (): JSX.Element => {
     const navigate = useNavigate();
@@ -13,10 +12,8 @@ const Players = (): JSX.Element => {
 
     const players: PlayerData[] = JSON.parse(localStorage.getItem("players") || '[{"name": "You", "hidden": true, "score": "0"}]');
     const items = players.map((player: PlayerData)=> {
-        return <li key={player.name}>
-            <Text children={player.name}/>
-            <Button buttonType="button" children="See score" onClick={()=> onSeeScoreButtonClick(player.name)} />
-        </li>
+        const name = player.name;
+        return <PlayerItem key={name} name={name} children={name} onClick={onSeeScoreButtonClick}/>
     })
 
     return (

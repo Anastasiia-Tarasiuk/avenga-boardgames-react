@@ -1,7 +1,7 @@
 import { GameData } from "../../../@types/types";
 import PageHeading from "../../components/PageHeading";
 import Text from "../../components/Text";
-import ListItem from "../../components/ListItem";
+import ListItem from "../../components/GameItem";
 import useReady from "../../hooks/useReady";
 import { useState } from "react";
 
@@ -20,6 +20,7 @@ const Favourites = () => {
         const name = item.name;
         
         return <ListItem key={id} state={readyState} url={item.image} name={name} id={id} onClick={()=>removeFromFavourites(id)} children="Remove" item={item}/>
+
     })
 
     return (
