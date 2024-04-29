@@ -14,11 +14,12 @@ const SearchGame = () => {
     const [games, setGames] = useState<GameData[] | []>([]);
     const [loader, setLoader] = useState<boolean>(false);
     const [isImagesLoaded, setIsImagesLoaded] = useState<boolean>(false);
+    const [isError, setIsError] = useState<string>("");
 
     const navigate = useNavigate();
 
     function handleChange(e: ChangeEvent<HTMLInputElement>): void {
-        setValue(e.target.value)
+        setValue(e.target.value);
     }
 
     function handleSubmit(e: SyntheticEvent): void {
@@ -30,6 +31,7 @@ const SearchGame = () => {
         }
 
         setGames([]);
+        setIsError("");
         const url: string = `https://boardgamegeek.com/xmlapi/search?search=${value}`;
 
         const fetchPromise = new Promise((resolve) =>{
@@ -37,6 +39,10 @@ const SearchGame = () => {
         })
 
         fetchPromise.then((data: any) => {
+            if (!data) {
+                throw new Error(`No game with name ${value}`)
+            }
+
             let defaultGames: any[] = [];
 
             if (!Array.isArray(data)) {
@@ -67,7 +73,7 @@ const SearchGame = () => {
 
             Promise.all(promises).then((newGames) => {
                 newGames.forEach((newGame: any, index: number)=> {
-                    defaultGames[index].image=newGame.image._text;
+                    defaultGames[index].image = newGame.image._text;
                 })
                 setIsImagesLoaded(true);
                 setGames(defaultGames);
@@ -75,7 +81,10 @@ const SearchGame = () => {
 
             setValue("");
             setLoader(false);
-        }).catch(error => {
+        }).catch((error: any)=> {
+            setIsError(error.message);
+            setLoader(false);
+            setValue("");
             console.error(error);
         })
     }
@@ -92,7 +101,9 @@ const SearchGame = () => {
             <PageHeading children="Add game"/>
             <Filter onSubmit={e => handleSubmit(e)} inputType="text" name="search" value={value} onChange={e => handleChange(e)} children="Type game name"/>
             {loader && <Text children="Loading..." />}
-            {games.length > 0 && <SearchedList onClick={(e) => gameItemHandleClick(e)} list={games} isImagesLoaded={isImagesLoaded} children="See more"/> }
+            {isError 
+            ? <Text children={isError}/>
+            : <SearchedList onClick={(e) => gameItemHandleClick(e)} list={games} isImagesLoaded={isImagesLoaded} children="See more"/> }
         </>
     )
 }
