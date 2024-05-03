@@ -15,7 +15,28 @@ export type GameData = {
 export type ScoreData = {
     date: string;
     player: string;
-    score: string;
+    score: number | string;
 };
+
+export type Winner = {
+    [key: string]: ScoreData;
+}
+
+
+export interface IStore {
+    games: {
+        games: GameData[],
+        currentGame: GameData,
+        date: string
+    },
+    players: {
+        players: PlayerData[],
+        winners: Winner
+    },
+    favourites: {
+        favourites: GameData[]
+    }
+    
+}
 
 

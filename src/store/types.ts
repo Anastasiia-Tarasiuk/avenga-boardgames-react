@@ -1,0 +1,11 @@
+export const ADDGAME = "ADDGAME";
+export const SETCURRENTGAME = "SETCURRENTGAME";
+export const SETDATE = "SETDATE";
+export const ADDPLAYER = "ADDPLAYER";
+export const ADDFAVOURITE = "ADDFAVOURITE";
+export const UPDATEGAMES = "UPDATEGAMES";
+export const UPDATEPLAYERS = "UPDATEPLAYERS";
+export const SETWINNERS = "SETWINNERS";
+export const UPDATEFAVOURITE = "UPDATEFAVOURITE";
+
+

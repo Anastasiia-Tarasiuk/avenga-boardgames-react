@@ -16,7 +16,6 @@ const SearchedList = ({list, onClick, children, isImagesLoaded}: Props): JSX.Ele
     const items = list.map((item: GameData) => {
         const id = item.id;
         const name = item.name;
-        
         return <ListItem key={id} state={readyState} url={item.image} name={name} id={id} children={children} item={item} onClick={onClick} isImagesLoaded={isImagesLoaded}/>
     })
 

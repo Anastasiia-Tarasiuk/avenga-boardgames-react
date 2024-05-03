@@ -11,7 +11,7 @@ type Props = {
 }
 
 const PlayerScore = ({players, currentPlayer, onChange, onClick, score}: Props): JSX.Element => {
-    localStorage.setItem("players", JSON.stringify(players));
+    // localStorage.setItem("players", JSON.stringify(players));
     
     return (
         <ul>

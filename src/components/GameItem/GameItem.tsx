@@ -2,7 +2,9 @@ import { MouseEvent } from "react";
 import Image from "../Image";
 import Text from "../Text";
 import Button from "../Button";
-import { GameData } from "../../../@types/types";
+import { GameData, IStore } from "../../../@types/types";
+import { useDispatch, useSelector } from "react-redux";
+import { addFavourite, addGame } from "../../store/actions";
 
 type Props = {
     state: string;
@@ -16,17 +18,27 @@ type Props = {
 }
 
 const ListItem = ({state, url, name, id, children, item, onClick, isImagesLoaded}: Props): JSX.Element => {
+    const dispatch = useDispatch();
     const isFavouritePage: boolean = document.URL.includes("favourites");
-    const favourites: GameData[] = JSON.parse(localStorage.getItem("favourites") || '[]');
-    const gameList: GameData[] = JSON.parse(localStorage.getItem("gameList") || '[]');
+    const favourites: GameData[] = useSelector((state:IStore) => state.favourites.favourites);
+    const gameList: GameData[] = useSelector((state:IStore) => state.games.games);
 
-    function saveItem(e: MouseEvent, item: GameData, list: GameData[], name: string): void {
+    function saveItem(e: MouseEvent, item: GameData, name: string): void {
         e.currentTarget.setAttribute("disabled", "");
-        list.push(item);
-        localStorage.setItem(name, JSON.stringify(list));
+
+        switch (name) {
+            case "favourites":
+                dispatch(addFavourite(item));
+                break;
+            case "gameList":
+                dispatch(addGame(item))
+                break;
+            default:
+                break;
+        }
     }
 
-    function isDesabled(id: string, list: GameData[]): boolean {
+    function isDisabled(id: string, list: GameData[]): boolean {
         return list.some((item: GameData)=>{
             return item.id === id;
         })
@@ -37,8 +49,8 @@ const ListItem = ({state, url, name, id, children, item, onClick, isImagesLoaded
             <Image state={state} url={url} alt={name} isImagesLoaded={isImagesLoaded}/>
             <Text children={name}/>
             <Button id={id} buttonType="button" onClick={(e)=>onClick(e)} children={children}/>
-            {!isFavouritePage && <Button id={id} buttonType="button" onClick={(e)=>saveItem(e, item, favourites, "favourites")} children="<3" disabled={isDesabled(id, favourites)}/>}
-            {isFavouritePage && <Button id={id} buttonType="button" onClick={(e)=>saveItem(e, item, gameList, "gameList")} children="Add to list" disabled={isDesabled(id, gameList)}/>}
+            {!isFavouritePage && <Button id={id} buttonType="button" onClick={(e)=>saveItem(e, item, "favourites")} children="<3" disabled={isDisabled(id, favourites)}/>}
+            {isFavouritePage && <Button id={id} buttonType="button" onClick={(e)=>saveItem(e, item, "gameList")} children="Add to list" disabled={isDisabled(id, gameList)}/>}
         </li>
     )
 }

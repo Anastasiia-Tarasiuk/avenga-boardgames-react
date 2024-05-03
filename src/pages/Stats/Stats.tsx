@@ -1,24 +1,21 @@
 import { useParams } from "react-router-dom";
 import PageHeading from "../../components/PageHeading";
 import Text from "../../components/Text";
-import { GameData, ScoreData } from "../../../@types/types";
+import { GameData, IStore, ScoreData, Winner } from "../../../@types/types";
 import Image from "../../components/Image";
 import useReady from "../../hooks/useReady";
+import { useSelector } from "react-redux";
 
 type ScoreObj = {
     [key: string]: ScoreData[];
-}
-
-type Winner = {
-    [key: string]: ScoreData;
 }
 
 const Stats = (): JSX.Element => {
     const {playerId} = useParams<{playerId: string}>();
     const {readyState} = useReady();
 
-    const winners: Winner = JSON.parse(localStorage.getItem("winners") || "{}");
-    const games: GameData[] = JSON.parse(localStorage.getItem("gameList") || '[]');
+    const winners: Winner = useSelector((state: IStore)=> state.players.winners);
+    const games: GameData[] = useSelector((state: IStore)=> state.games.games);
     const scoreObj: ScoreObj = {};
     const items: JSX.Element[] = [];
 

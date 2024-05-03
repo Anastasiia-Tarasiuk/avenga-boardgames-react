@@ -2,31 +2,28 @@ import { useNavigate, useParams } from "react-router-dom";
 import Button from "../../components/Button";
 import { useState } from "react";
 import PageHeading from "../../components/PageHeading";
-import { GameData } from "../../../@types/types";
+import { GameData, IStore } from "../../../@types/types";
 import Image from "../../components/Image";
 import useReady from "../../hooks/useReady";
+import { useDispatch, useSelector } from "react-redux";
+import { setDate, addGame } from "../../store/actions";
 
 const Game = (): JSX.Element => {
     const {readyState} = useReady();
-    
     const navigate = useNavigate();
-    const gameList: GameData[] = JSON.parse(localStorage.getItem("gameList") || '[]');
-    
+    const gameList: GameData[] = useSelector((state: IStore)=> state.games.games);
+    const data: GameData = useSelector((state: IStore)=> state.games.currentGame);
     const { gameId } = useParams<{gameId: string}>();
-
     const [desible, setDesible] = useState<boolean>(gameList.some((item: GameData) => item.id === gameId));
-
-    const data: GameData = JSON.parse(localStorage.getItem("gameData") || '{}');
-
+    const dispatch = useDispatch();
+    
     function onAddButtonClick(): void {
-        gameList.push(data)
-        localStorage.setItem("gameList", JSON.stringify(gameList));
+        dispatch(addGame(data));
         setDesible(true);
     }
 
     function onAddScoreButtonClick(): void {
-        localStorage.setItem("gameData", JSON.stringify(data));
-        localStorage.setItem("date", JSON.stringify(Date.now()));
+        dispatch(setDate(Date.now().toString()));
         navigate(`/score/${gameId}`, { replace: false });
     }
 

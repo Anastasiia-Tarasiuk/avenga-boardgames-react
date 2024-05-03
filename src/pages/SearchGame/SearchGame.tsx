@@ -8,15 +8,18 @@ import PageHeading from "../../components/PageHeading";
 import { GameData } from "../../../@types/types";
 import Text from "../../components/Text";
 import no_image from "../../assets/no_image.jpg";
+import { useDispatch } from "react-redux";
+import { setCurrentGame } from "../../store/actions";
 
 const SearchGame = () => {
     const [value, setValue] = useState<string>("");
-    const [games, setGames] = useState<GameData[] | []>([]);
-    const [loader, setLoader] = useState<boolean>(false);
+    const [games, setGames] = useState<GameData[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isImagesLoaded, setIsImagesLoaded] = useState<boolean>(false);
-    const [isError, setIsError] = useState<string>("");
+    const [error, setError] = useState<string>("");
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     function handleChange(e: ChangeEvent<HTMLInputElement>): void {
         setValue(e.target.value);
@@ -24,14 +27,14 @@ const SearchGame = () => {
 
     function handleSubmit(e: SyntheticEvent): void {
         e.preventDefault();
-        setLoader(true);
+        setIsLoading(true);
 
         if (!value) {
             return;
         }
 
         setGames([]);
-        setIsError("");
+        setError("");
         const url: string = `https://boardgamegeek.com/xmlapi/search?search=${value}`;
 
         const fetchPromise = new Promise((resolve) =>{
@@ -40,7 +43,7 @@ const SearchGame = () => {
 
         fetchPromise.then((data: any) => {
             if (!data) {
-                throw new Error(`No game with name ${value}`)
+                throw new Error(`No game called ${value}`)
             }
 
             let defaultGames: any[] = [];
@@ -80,19 +83,18 @@ const SearchGame = () => {
             });
 
             setValue("");
-            setLoader(false);
-        }).catch((error: any)=> {
-            setIsError(error.message);
-            setLoader(false);
+            setIsLoading(false);
+        }).catch((error: ErrorEvent)=> {
+            setError(error.message);
+            setIsLoading(false);
             setValue("");
-            console.error(error);
         })
     }
 
     function gameItemHandleClick(e: MouseEvent<HTMLButtonElement>): void {
         const id: string | undefined = e.currentTarget.dataset.id;
         const data: GameData[] = games.filter((game: GameData) => game.id === id);
-        localStorage.setItem("gameData", JSON.stringify(data[0]));
+        dispatch(setCurrentGame(data[0]));
         navigate(`/game/${id}`, { replace: false });
     }
 
@@ -100,9 +102,9 @@ const SearchGame = () => {
         <>
             <PageHeading children="Add game"/>
             <Filter onSubmit={e => handleSubmit(e)} inputType="text" name="search" value={value} onChange={e => handleChange(e)} children="Type game name"/>
-            {loader && <Text children="Loading..." />}
-            {isError 
-            ? <Text children={isError}/>
+            {isLoading && <Text children="Loading..." />}
+            {error 
+            ? <Text children={error}/>
             : <SearchedList onClick={(e) => gameItemHandleClick(e)} list={games} isImagesLoaded={isImagesLoaded} children="See more"/> }
         </>
     )

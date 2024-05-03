@@ -6,35 +6,41 @@ import PlayerScore from "../../components/PlayerScore";
 import { ChangeEvent, useEffect, useState } from "react";
 import ModalOverlay from "../../components/ModalOverlay";
 import AddPlayerContent from "../../components/AddPlayerContent";
-import { GameData, PlayerData } from "../../../@types/types";
+import { GameData, IStore, PlayerData } from "../../../@types/types";
 import { ScoreData } from "../../../@types/types";
 import Image from "../../components/Image";
 import useReady from "../../hooks/useReady";
+import { useDispatch, useSelector } from "react-redux";
+import { setWinners, updateGames, updatePlayers } from "../../store/actions";
 
 const Score = (): JSX.Element => {
-    const initialPlayer: string = '[{"name": "You", "hidden": "true", "score": "0"}]';
     const { gameId } = useParams<{gameId: string}>();
-    const [players, setPlayers] = useState<PlayerData[]>(JSON.parse(localStorage.getItem("players") || initialPlayer));
+    const [players, setPlayers] = useState<PlayerData[]>(useSelector((store: IStore) => store.players.players));
     const [currentPlayer, setCurrentPlayer] = useState<string>("");
     const [score, setScore] = useState<string>("0");
     const [showModal, setShowModal] = useState<boolean>(false);
     const [newPlayer, setNewPlayer] = useState<string>("");
     const {readyState} = useReady();
+    const dispatch = useDispatch();
+
+    const data = useSelector((store: IStore) => store.games.currentGame);
+    const gameList = useSelector((store: IStore) => store.games.games);
+    const winners = useSelector((store: IStore) => store.players.winners);
+    const date = useSelector((store: IStore) => store.games.date);
 
     useEffect(() => {
         return () => {
-            const playersFromStorage = JSON.parse(localStorage.getItem("players") || initialPlayer);
-            localStorage.setItem("players", JSON.stringify(playersFromStorage.map((player: PlayerData) => {
-                player.hidden = true;
-                player.score = "0";
-                return player;
-            })))
+            if (!document.URL.includes("score")) {
+                const updatedPlayers = players.map((player: PlayerData) => {
+                    player.hidden = true;
+                    player.score = 0;
+                    return player;
+                })
+    
+                dispatch(updatePlayers(updatedPlayers));
+            }
         };
-    }, []);
-
-    const data: { image:  string ; name: string, id: string } = JSON.parse(localStorage.getItem("gameData") || '{}');
-
-    const gameList = JSON.parse(localStorage.getItem("gameList") || '[]');
+    }, [dispatch, players]);
 
     function handleSelectClick(e: ChangeEvent<HTMLSelectElement>) {
         const value = e.currentTarget.value;
@@ -52,9 +58,11 @@ const Score = (): JSX.Element => {
 
     function showPlayer(value: string) {
         const newPlayers = players.map((player: PlayerData) => {
+
             if (player.name.toLowerCase() === value.toLowerCase()) {
                 player.hidden = false;
             }
+
             return player;
         })
         setPlayers(newPlayers);
@@ -62,40 +70,39 @@ const Score = (): JSX.Element => {
 
     function addScore(e: ChangeEvent<HTMLInputElement>) {
         setScore(e.currentTarget.value);
-        const date = localStorage.getItem("date") || Date.now().toString();
 
-            gameList.forEach((game: GameData) => {
-
-                if (game.id === gameId) {
-                    if (!game.score) {
-                        game.score = [];
-                    }
-
-                    const scoreObj: ScoreData = {
-                        date,
-                        player: currentPlayer,
-                        score: e.currentTarget.value
-                    }
-
-                    const index = game.score.findIndex((score: ScoreData)=> score.date === date && score.player === currentPlayer);
-
-                    if (index === -1) {
-                        game.score.push(scoreObj);
-                    } else {
-                        game.score.splice(index, 1, scoreObj)
-                    }
-
-                    saveWinner(date, Number(e.currentTarget.value), currentPlayer);
+        gameList.forEach((game: GameData) => {
+            if (game.id === gameId) {
+                if (!game.score) {
+                    game.score = [];
                 }
-            })
 
-            players.forEach(player => {
-                if (player.name === currentPlayer) {
-                    player.score = e.currentTarget.value;
+                const scoreObj: ScoreData = {
+                    date,
+                    player: currentPlayer,
+                    score
                 }
-            })
 
-            localStorage.setItem("gameList", JSON.stringify(gameList));
+                const index = game.score.findIndex((score: ScoreData)=> score.date === date && score.player === currentPlayer);
+
+                if (index === -1) {
+                    game.score.push(scoreObj);
+                } else {
+                    game.score.splice(index, 1, scoreObj)
+                }
+
+                saveWinner(date, e.currentTarget.value, currentPlayer);
+            }
+        })
+
+        players.forEach(player => {
+            if (player.name === currentPlayer) {
+                player.score = e.currentTarget.value;
+            }
+        })
+
+        //mutation!!!
+        dispatch(updateGames(gameList));
     }
 
     function addPlayerName(e: ChangeEvent<HTMLInputElement>) {
@@ -123,18 +130,17 @@ const Score = (): JSX.Element => {
         setScore("");
     }
 
-    function saveWinner(date: string, score: number, player: string) {
-        const winners = JSON.parse(localStorage.getItem("winners") || "{}");
-
+    function saveWinner(date: string, score: string, player: string) {
+        console.log("date", date)
         if (!winners.hasOwnProperty(date)) {
             winners[date] = {date, score, player};
         } else {
-            if (winners[date].score < score) {
+            if (Number(winners[date].score) < Number(score)) {
                 winners[date].score = score;
                 winners[date].player = player;
             } 
         }
-        localStorage.setItem("winners", JSON.stringify(winners));
+        dispatch(setWinners(winners));
     }
     
     return (
