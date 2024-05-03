@@ -11,7 +11,7 @@ import { ScoreData } from "../../../@types/types";
 import Image from "../../components/Image";
 import useReady from "../../hooks/useReady";
 import { useDispatch, useSelector } from "react-redux";
-import { setWinners, updateGames, updatePlayers } from "../../store/actions";
+import { addPlayer, setWinners, updateGames, updatePlayers } from "../../store/actions";
 
 const Score = (): JSX.Element => {
     const { gameId } = useParams<{gameId: string}>();
@@ -121,6 +121,7 @@ const Score = (): JSX.Element => {
         setScore("0");
         setCurrentPlayer(newPlayer);
         const newPlayerObj = {"name": newPlayer, "hidden": false, score: 0};
+        dispatch(addPlayer(newPlayerObj))
         setShowModal(false);
         setPlayers(prevState => [...prevState, {...newPlayerObj}]);
         setNewPlayer("");
@@ -132,7 +133,6 @@ const Score = (): JSX.Element => {
     }
 
     function saveWinner(date: string, score: string, player: string) {
-        console.log("date", date)
         if (!winners.hasOwnProperty(date)) {
             winners[date] = {date, score, player};
         } else {

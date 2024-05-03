@@ -39,7 +39,7 @@ const playerReducer = (store = initialState.players, action) => {
         case ADDPLAYER:
             return {
                 ...store,
-
+                players: [...store.players, action.payload] 
             };
 
         case UPDATEPLAYERS:
