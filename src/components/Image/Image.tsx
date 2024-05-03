@@ -4,7 +4,7 @@ type Props = {
     url: string | undefined; 
     alt: string; 
     state: string; 
-    isImagesLoaded?: any;
+    isImagesLoaded?: boolean;
 }
 
 const Image = ({url, alt, state, isImagesLoaded}: Props) => {
@@ -14,7 +14,7 @@ const Image = ({url, alt, state, isImagesLoaded}: Props) => {
             ? <img src={url} alt={alt}/>
             : <img src={no_item} alt={alt}/>}
         </>
-        : <>{state ? <img src={url}  alt={alt}/> : <img src={no_item} alt={alt}/>}</>
+        : <>{state ? <img src={url} alt={alt}/> : <img src={no_item} alt={alt}/>}</>
     )
 }
 

@@ -10,9 +10,7 @@ type Props = {
     onClick: (name: string) => void;
 }
 
-const PlayerScore = ({players, currentPlayer, onChange, onClick, score}: Props): JSX.Element => {
-    // localStorage.setItem("players", JSON.stringify(players));
-    
+const PlayerScore = ({players, currentPlayer, onChange, onClick, score}: Props): JSX.Element => {    
     return (
         <ul>
             {players.filter((p: PlayerData) => !p.hidden).map((player: PlayerData) => (

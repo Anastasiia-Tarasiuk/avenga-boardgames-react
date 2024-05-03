@@ -69,7 +69,8 @@ const Score = (): JSX.Element => {
     }
 
     function addScore(e: ChangeEvent<HTMLInputElement>) {
-        setScore(e.currentTarget.value);
+        const currentScore = e.currentTarget.value;
+        setScore(currentScore);
 
         gameList.forEach((game: GameData) => {
             if (game.id === gameId) {
@@ -80,7 +81,7 @@ const Score = (): JSX.Element => {
                 const scoreObj: ScoreData = {
                     date,
                     player: currentPlayer,
-                    score
+                    score: currentScore
                 }
 
                 const index = game.score.findIndex((score: ScoreData)=> score.date === date && score.player === currentPlayer);
@@ -91,13 +92,13 @@ const Score = (): JSX.Element => {
                     game.score.splice(index, 1, scoreObj)
                 }
 
-                saveWinner(date, e.currentTarget.value, currentPlayer);
+                saveWinner(date, currentScore, currentPlayer);
             }
         })
 
         players.forEach(player => {
             if (player.name === currentPlayer) {
-                player.score = e.currentTarget.value;
+                player.score = currentScore;
             }
         })
 
