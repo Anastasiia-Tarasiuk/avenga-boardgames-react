@@ -1,5 +1,5 @@
 import { MouseEvent } from "react";
-import Image from "../Image";
+import ImageContainer from "../ImageContainer";
 import Text from "../Text";
 import Button from "../Button";
 import { GameData, IStore } from "../../../@types/types";
@@ -17,7 +17,7 @@ type Props = {
     isImagesLoaded?: any;
 }
 
-const ListItem = ({state, url, name, id, children, item, onClick, isImagesLoaded}: Props): JSX.Element => {
+const GameItem = ({state, url, name, id, children, item, onClick, isImagesLoaded}: Props): JSX.Element => {
     const dispatch = useDispatch();
     const isFavouritePage: boolean = document.URL.includes("favourites");
     const favourites: GameData[] = useSelector((state:IStore) => state.favourites.favourites);
@@ -46,7 +46,7 @@ const ListItem = ({state, url, name, id, children, item, onClick, isImagesLoaded
 
     return (
         <li>
-            <Image state={state} url={url} alt={name} isImagesLoaded={isImagesLoaded}/>
+            <ImageContainer state={state} url={url} alt={name} isImagesLoaded={isImagesLoaded}/>
             <Text children={name}/>
             <Button id={id} buttonType="button" onClick={(e)=>onClick(e)} children={children}/>
             {!isFavouritePage && <Button id={id} buttonType="button" onClick={(e)=>saveItem(e, item, "favourites")} children="<3" disabled={isDisabled(id, favourites)}/>}
@@ -55,4 +55,4 @@ const ListItem = ({state, url, name, id, children, item, onClick, isImagesLoaded
     )
 }
 
-export default ListItem;
+export default GameItem;

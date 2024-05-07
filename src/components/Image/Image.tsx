@@ -1,21 +1,15 @@
-import no_item from "../../assets/no_image.jpg";
+// import Text from "../Text";
 
 type Props = {
-    url: string | undefined; 
-    alt: string; 
-    state: string; 
-    isImagesLoaded?: boolean;
+    url: string; 
+    name: string; 
 }
 
-const Image = ({url, alt, state, isImagesLoaded}: Props) => {
-    return (
-        isImagesLoaded 
-        ? <>{isImagesLoaded 
-            ? <img src={url} alt={alt}/>
-            : <img src={no_item} alt={alt}/>}
-        </>
-        : <>{state ? <img src={url} alt={alt}/> : <img src={no_item} alt={alt}/>}</>
-    )
+const Image = ({url, name}: Props) => {
+    return <div>
+        <img src={url} alt={name}/>
+        {/* <Text children={name}/> */}
+    </div>
 }
 
 export default Image;

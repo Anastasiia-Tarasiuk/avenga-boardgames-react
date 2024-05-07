@@ -1,10 +1,12 @@
 import { useParams } from "react-router-dom";
 import PageHeading from "../../components/PageHeading";
 import Text from "../../components/Text";
+import StatsList from "../../components/StatsList";
 import { GameData, IStore, ScoreData, Winner } from "../../../@types/types";
-import Image from "../../components/Image";
+import ImageContainer from "../../components/ImageContainer";
 import useReady from "../../hooks/useReady";
 import { useSelector } from "react-redux";
+
 
 type ScoreObj = {
     [key: string]: ScoreData[];
@@ -21,7 +23,7 @@ const Stats = (): JSX.Element => {
 
     games.forEach((game: GameData) => {
         let best: number = 0;
-        
+
         if (!scoreObj.hasOwnProperty(game.id)) {
             scoreObj[game.id] = [];
         }
@@ -39,10 +41,11 @@ const Stats = (): JSX.Element => {
         } 
 
         if (scoreObj[game.id].length > 0) {
+            
             items.push(
                 <li key={game.id}>
                     <Text children={game.name}/>
-                    <Image url={game.image} alt={game.name} state={readyState}/>
+                    <ImageContainer url={game.image} alt={game.name} state={readyState}/>
                     <ul>{scoreObj[game.id].map((item: ScoreData) => {
                         return <li key={item.date}>
                             <p>{parseDate(item.date)} <span>{item.score}</span> {best === Number(item.score) &&  <span>Best score</span>} {winners[item.date]?.player === item.player && <span>The winner</span> }</p>
@@ -65,7 +68,7 @@ const Stats = (): JSX.Element => {
         <>
         <PageHeading children={`Game stats of ${playerId}`}/>
         {items.length > 0 
-            ? <ul>{items}</ul>
+            ? <StatsList children={items} />
             : <Text children="No played games yet"/>}
         </>
     )

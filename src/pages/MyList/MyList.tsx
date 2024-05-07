@@ -11,7 +11,6 @@ const MyList = (): JSX.Element => {
     const gameList: GameData[] = useSelector((state: IStore)=> state.games.games);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    
     function onAddScoreButtonClick(e: MouseEvent<HTMLButtonElement>): void {
         const id: string | undefined = e.currentTarget.dataset.id;
         const data: GameData[] = gameList.filter((game: GameData) => game.id === id);

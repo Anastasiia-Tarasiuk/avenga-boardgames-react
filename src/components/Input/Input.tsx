@@ -6,12 +6,13 @@ type Props = {
     children: string;
     value: string | number;
     onChange: ChangeEventHandler<HTMLInputElement>;
+    placeholder?: string
 };
 
-const Input = ({inputType, name, children, value, onChange}: Props): JSX.Element => {
+const Input = ({inputType, name, children, value, onChange, placeholder}: Props): JSX.Element => {
     return (
         <label>{children}
-            <input type={inputType} name={name} value={value} onChange={onChange} />
+            <input type={inputType} name={name} value={value} onChange={onChange} placeholder={placeholder} />
         </label>
     )
 }

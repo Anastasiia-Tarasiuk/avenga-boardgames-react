@@ -10,7 +10,7 @@ type Props = {
     isImagesLoaded?: any;
 }
 
-const SearchedList = ({list, onClick, children, isImagesLoaded}: Props): JSX.Element => {
+const GameList = ({list, onClick, children, isImagesLoaded}: Props): JSX.Element => {
     const {readyState} = useReady();
 
     const items = list.map((item: GameData) => {
@@ -24,4 +24,4 @@ const SearchedList = ({list, onClick, children, isImagesLoaded}: Props): JSX.Ele
     )
 }
 
-export default SearchedList;
+export default GameList;

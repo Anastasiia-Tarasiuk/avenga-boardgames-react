@@ -3,7 +3,7 @@ import Button from "../../components/Button";
 import { useState } from "react";
 import PageHeading from "../../components/PageHeading";
 import { GameData, IStore } from "../../../@types/types";
-import Image from "../../components/Image";
+import ImageContainer from "../../components/ImageContainer";
 import useReady from "../../hooks/useReady";
 import { useDispatch, useSelector } from "react-redux";
 import { setDate, addGame } from "../../store/actions";
@@ -16,7 +16,7 @@ const Game = (): JSX.Element => {
     const { gameId } = useParams<{gameId: string}>();
     const [desible, setDesible] = useState<boolean>(gameList.some((item: GameData) => item.id === gameId));
     const dispatch = useDispatch();
-    
+
     function onAddButtonClick(): void {
         dispatch(addGame(data));
         setDesible(true);
@@ -31,7 +31,7 @@ const Game = (): JSX.Element => {
         <>
             <PageHeading children="Save game to list"/>
             <p>{data.name}</p>
-            <Image url={data.image} alt={data.name} state={readyState}/>
+            <ImageContainer url={data.image} alt={data.name} state={readyState}/>
             <Button onClick={onAddButtonClick} buttonType="button" children="Add game" disabled={desible}/>
             {desible && <Button onClick={onAddScoreButtonClick} buttonType="button" children="Add score" disabled={false}/>}
         </>

@@ -1,0 +1,25 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 40px;
+}
+
+main {
+    padding: 20px 40px;
+}
+
+.header-menu {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+
+}
+
+.header-menu li:not(:last-child) {
+    margin-right: 20px;
+}
+
+/* .header-menu li {
+    
+    
+} */

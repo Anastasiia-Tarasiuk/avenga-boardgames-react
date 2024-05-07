@@ -9,13 +9,14 @@ type Props = {
     value: string;
     onSubmit: FormEventHandler<HTMLFormElement>;
     onChange: ChangeEventHandler<HTMLInputElement>;
+    placeholder?: string;
 };
 
-const Filter = ({inputType, name, value, children, onChange, onSubmit}: Props): JSX.Element => {
+const Filter = ({inputType, name, value, children, onChange, onSubmit, placeholder}: Props): JSX.Element => {
 
     return (
         <form onSubmit={onSubmit}>
-            <Input inputType={inputType} name={name} value={value} onChange={onChange} children={children}/>
+            <Input inputType={inputType} name={name} value={value} onChange={onChange} children={children} placeholder={placeholder}/>
             <Button buttonType="submit" children="Search" />
         </form>
     )

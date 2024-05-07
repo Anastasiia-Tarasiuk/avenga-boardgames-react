@@ -14,3 +14,5 @@ declare module "*.jpg" {
 }
 
 declare module 'xml-js';
+
+declare module "*.module.css";
