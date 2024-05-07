@@ -1,6 +1,5 @@
 import { MouseEvent } from "react";
 import ImageContainer from "../ImageContainer";
-import Text from "../Text";
 import Button from "../Button";
 import { GameData, IStore } from "../../../@types/types";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,7 +24,6 @@ const GameItem = ({state, url, name, id, children, item, onClick, isImagesLoaded
 
     function saveItem(e: MouseEvent, item: GameData, name: string): void {
         e.currentTarget.setAttribute("disabled", "");
-
         switch (name) {
             case "favourites":
                 dispatch(addFavourite(item));
@@ -47,10 +45,11 @@ const GameItem = ({state, url, name, id, children, item, onClick, isImagesLoaded
     return (
         <li>
             <ImageContainer state={state} url={url} alt={name} isImagesLoaded={isImagesLoaded}/>
-            <Text children={name}/>
             <Button id={id} buttonType="button" onClick={(e)=>onClick(e)} children={children}/>
-            {!isFavouritePage && <Button id={id} buttonType="button" onClick={(e)=>saveItem(e, item, "favourites")} children="<3" disabled={isDisabled(id, favourites)}/>}
-            {isFavouritePage && <Button id={id} buttonType="button" onClick={(e)=>saveItem(e, item, "gameList")} children="Add to list" disabled={isDisabled(id, gameList)}/>}
+            {isFavouritePage 
+                ? <Button id={id} buttonType="button" onClick={(e)=>saveItem(e, item, "gameList")} children="Add to list" disabled={isDisabled(id, gameList)}/>
+                : <Button id={id} buttonType="button" onClick={(e)=>saveItem(e, item, "favourites")} children="<3" disabled={isDisabled(id, favourites)}/>
+            }
         </li>
     )
 }

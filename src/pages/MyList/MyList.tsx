@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { MouseEvent } from "react";
 import Text from "../../components/Text";
-import SearchedList from "../../components/GameList";
+import GameList from "../../components/GameList";
 import PageHeading from "../../components/PageHeading";
 import { GameData, IStore } from "../../../@types/types";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,7 +23,7 @@ const MyList = (): JSX.Element => {
         <>
             <PageHeading children="My list"/>
             {gameList.length > 0
-                ? <SearchedList list={gameList} onClick={(e)=>onAddScoreButtonClick(e)} children="Add score"/>
+                ? <GameList list={gameList} onClick={(e)=>onAddScoreButtonClick(e)} children="Add score"/>
                 : <Text children="No items"/>}
         </>
     )

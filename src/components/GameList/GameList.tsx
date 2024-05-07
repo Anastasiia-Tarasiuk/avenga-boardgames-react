@@ -2,6 +2,7 @@ import ListItem from "../GameItem/GameItem";
 import { MouseEvent } from "react";
 import { GameData } from "../../../@types/types";
 import useReady from "../../hooks/useReady";
+import css from "./GameList.module.css";
 
 type Props = {
     list: GameData[];
@@ -20,7 +21,7 @@ const GameList = ({list, onClick, children, isImagesLoaded}: Props): JSX.Element
     })
 
     return (
-        <ul>{items}</ul>
+        <ul className={css["game-list"]}>{items}</ul>
     )
 }
 
