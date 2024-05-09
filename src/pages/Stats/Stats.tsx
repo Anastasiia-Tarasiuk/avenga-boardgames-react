@@ -7,7 +7,6 @@ import ImageContainer from "../../components/ImageContainer";
 import useReady from "../../hooks/useReady";
 import { useSelector } from "react-redux";
 
-
 type ScoreObj = {
     [key: string]: ScoreData[];
 }
@@ -44,8 +43,7 @@ const Stats = (): JSX.Element => {
             
             items.push(
                 <li key={game.id}>
-                    <Text children={game.name}/>
-                    <ImageContainer url={game.image} alt={game.name} state={readyState}/>
+                    <ImageContainer className="static-image" url={game.image} alt={game.name} state={readyState}/>
                     <ul>{scoreObj[game.id].map((item: ScoreData) => {
                         return <li key={item.date}>
                             <p>{parseDate(item.date)} <span>{item.score}</span> {best === Number(item.score) &&  <span>Best score</span>} {winners[item.date]?.player === item.player && <span>The winner</span> }</p>

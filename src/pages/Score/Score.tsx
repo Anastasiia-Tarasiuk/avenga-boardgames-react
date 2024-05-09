@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import PageHeading from "../../components/PageHeading";
-import Text from "../../components/Text";
 import PlayerSelect from "../../components/PlayerSelect";
 import PlayerScore from "../../components/PlayerScore";
 import { ChangeEvent, useEffect, useState } from "react";
@@ -146,10 +145,7 @@ const Score = (): JSX.Element => {
     return (
         <>
             <PageHeading children="Set score"/>
-            <div>
-                <Text children={data.name}/>
-                <ImageContainer url={data.image} alt={data.name} state={readyState}/>
-            </div>
+            <ImageContainer className="static-image" url={data.image} alt={data.name} state={readyState}/>
             <PlayerSelect players={players} onChange={(e: ChangeEvent<HTMLSelectElement>) => handleSelectClick(e)}/>
             <PlayerScore onClick={(name: string)=>onInputClick(name)} players={players} currentPlayer={currentPlayer} score={score} onChange={(e: ChangeEvent<HTMLInputElement>)=>addScore(e)}/>
             {showModal && <ModalOverlay close={() => setShowModal(false)} content={<AddPlayerContent value={newPlayer} onChange={(e: ChangeEvent<HTMLInputElement>)=>addPlayerName(e)} onClick={()=>{onSavePlayerButtonClick()}}/>} />}

@@ -26,3 +26,11 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
+.pointer {
+  cursor: pointer;
+}
+
+.static-image {
+  width: 320px !important;
+}
