@@ -6,17 +6,16 @@ type Props = {
     alt: string; 
     state: string; 
     isImagesLoaded?: boolean;
-    className?: string;
 }
 
-const ImageContainer = ({url, alt, state, isImagesLoaded, className}: Props) => {
+const ImageContainer = ({url, alt, state, isImagesLoaded}: Props) => {
     return (
         isImagesLoaded 
         ? <>{isImagesLoaded 
-            ? <Image className={className} url={url} name={alt} />
-            : <Image className={className} url={no_item} name={alt} />}
+            ? <Image url={url} name={alt} />
+            : <Image url={no_item} name={alt} />}
         </>
-        : <>{state ? <Image className={className} url={url} name={alt} /> : <Image className={className}  url={no_item} name={alt} />}</>
+        : <>{state ? <Image url={url} name={alt} /> : <Image url={no_item} name={alt} />}</>
     )
 }
 

@@ -30,7 +30,3 @@ a {
 .pointer {
   cursor: pointer;
 }
-
-.static-image {
-  width: 320px !important;
-}

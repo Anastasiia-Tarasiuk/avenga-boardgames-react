@@ -2,31 +2,12 @@
     display: flex;
     flex-wrap: wrap;
     margin-bottom: -20px;
+    margin-right: -20px;
 }
 
-@media screen and (min-width: 1200px) {
-    .game-list li {
-        width: calc((100% - 3 * 20px) / 4);
-        overflow: hidden;
-        background-color: lightgray;
-        margin-bottom: 20px;
-    }
 
-    .game-list li:not(:nth-child(4n)) {
-       margin-right: 20px;
-    }
-
-    .game-list li:not(:nth-child(4n)) {
-        margin-right: 20px;
-    }
-    
+.game-list li {
+    background-color: lightgray;
+    margin-bottom: 20px;
+    margin-right: 20px;
 }
-    
-        /* @media screen and (min-width: 576px) and (max-width: 767px) {
-    
-            
-        }
-    
-        @media screen and (min-width: 768px) and (max-width: 1199px) {
-            
-        } */

@@ -145,7 +145,7 @@ const Score = (): JSX.Element => {
     return (
         <>
             <PageHeading children="Set score"/>
-            <ImageContainer className="static-image" url={data.image} alt={data.name} state={readyState}/>
+            <ImageContainer  url={data.image} alt={data.name} state={readyState}/>
             <PlayerSelect players={players} onChange={(e: ChangeEvent<HTMLSelectElement>) => handleSelectClick(e)}/>
             <PlayerScore onClick={(name: string)=>onInputClick(name)} players={players} currentPlayer={currentPlayer} score={score} onChange={(e: ChangeEvent<HTMLInputElement>)=>addScore(e)}/>
             {showModal && <ModalOverlay close={() => setShowModal(false)} content={<AddPlayerContent value={newPlayer} onChange={(e: ChangeEvent<HTMLInputElement>)=>addPlayerName(e)} onClick={()=>{onSavePlayerButtonClick()}}/>} />}
