@@ -10,7 +10,7 @@ import no_image from "../../assets/no_image.jpg";
 const SharedLayout = (): JSX.Element => {
     const navigate = useNavigate();
     const [value, setValue] = useState<string>("");
-    const [searchGames, setGames] = useState<GameData[]>([]);
+    const [searchGames, setSearchGames] = useState<GameData[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isImagesLoaded, setIsImagesLoaded] = useState<boolean>(false);
     const [error, setError] = useState<string>("");
@@ -35,7 +35,7 @@ const SharedLayout = (): JSX.Element => {
             return;
         }
 
-        setGames([]);
+        setSearchGames([]);
         setError("");
         const url: string = `https://boardgamegeek.com/xmlapi/search?search=${value}`;
 
@@ -54,16 +54,20 @@ const SharedLayout = (): JSX.Element => {
                 defaultGames.push ({
                     "name": data.name._text,
                     "id": data._attributes.objectid,
+                    "description": "",
+                    "playTime": ""
                 })
             } else {
                 defaultGames = data.map((game:any) => ({
                     "name": game.name._text,
                     "id": game._attributes.objectid,
                     "image": no_image,
+                    "description": "",
+                    "playTime": ""
                 }))
             }
 
-            setGames(defaultGames);
+            setSearchGames(defaultGames);
             setIsImagesLoaded(true);
             return defaultGames;
         }).then((defaultGames) => {
@@ -78,10 +82,13 @@ const SharedLayout = (): JSX.Element => {
 
             Promise.all(promises).then((newGames) => {
                 newGames.forEach((newGame: any, index: number)=> {
+                    const description = getText(newGame.description._text);
                     defaultGames[index].image = newGame.image._text;
+                    defaultGames[index].description = description.replaceAll("<br/><br/>", "<br/>").replaceAll("<br/>", " ");
+                    defaultGames[index].playTime = newGame.maxplaytime._text;
                 })
                 setIsImagesLoaded(true);
-                setGames(defaultGames);
+                setSearchGames(defaultGames);
             });
 
             setValue("");
@@ -91,6 +98,12 @@ const SharedLayout = (): JSX.Element => {
             setIsLoading(false);
             setValue("");
         })
+    }
+
+    function getText(text: string): string{
+        const divContainer = document.createElement("div");
+        divContainer.innerHTML = text;
+        return divContainer.innerText || "";
     }
 
     return (

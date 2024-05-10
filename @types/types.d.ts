@@ -8,6 +8,8 @@ export type GameData = {
     id: string; 
     image: string; 
     name: string;
+    description: string;
+    playTime: string;
     score?: ScoreData[];
     isFavourite?: boolean;
 }

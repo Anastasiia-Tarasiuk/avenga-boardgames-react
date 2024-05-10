@@ -7,6 +7,7 @@ import ImageContainer from "../../components/ImageContainer";
 import useReady from "../../hooks/useReady";
 import { useDispatch, useSelector } from "react-redux";
 import { setDate, addGame } from "../../store/actions";
+import Text from "../../components/Text";
 
 const Game = (): JSX.Element => {
     const {readyState} = useReady();
@@ -26,16 +27,16 @@ const Game = (): JSX.Element => {
         dispatch(setDate(Date.now().toString()));
         navigate(`/score/${gameId}`, { replace: false });
     }
-
+    
     return (
         <>
             <PageHeading children="Save game to list"/>
-            <p>{data.name}</p>
             <ImageContainer url={data.image} alt={data.name} state={readyState}/>
+            <Text children={data.description}/>
+            <Text children={`Play time: ${data.playTime + " min"}`}/>
             <Button onClick={onAddButtonClick} buttonType="button" children="Add game" disabled={desible}/>
             {desible && <Button onClick={onAddScoreButtonClick} buttonType="button" children="Add score" disabled={false}/>}
         </>
-        
     )
 }
 

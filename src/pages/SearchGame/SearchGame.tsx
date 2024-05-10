@@ -1,5 +1,5 @@
 import { MouseEvent } from "react";
-import SearchedList from "../../components/GameList";
+import GameList from "../../components/GameList";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import PageHeading from "../../components/PageHeading";
 import { GameData } from "../../../@types/types";
@@ -25,7 +25,7 @@ const SearchGame = () => {
             {isLoading && <Text children="Loading..." />}
             {error 
             ? <Text children={error}/>
-            : <SearchedList onClick={(e) => gameItemHandleClick(e)} list={searchGames} isImagesLoaded={isImagesLoaded} children="See more"/> }
+            : <GameList onClick={(e) => gameItemHandleClick(e)} list={searchGames} isImagesLoaded={isImagesLoaded} children="See more"/> }
         </>
     )
 }
