@@ -39,4 +39,7 @@ export interface IStore {
     
 }
 
+export type ScoreObj = {
+    [key: string]: ScoreData[];
+}
 

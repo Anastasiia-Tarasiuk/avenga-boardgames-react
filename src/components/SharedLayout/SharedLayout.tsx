@@ -1,7 +1,7 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import Filter from "../Filter";
 import css from "./SharedLayout.module.css";
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { GameData } from "../../../@types/types";
 import fetchAPI from "../../utils/gameFetch";
 import no_image from "../../assets/no_image.jpg";
@@ -23,11 +23,11 @@ const SharedLayout = (): JSX.Element => {
         }
     }
 
-    function handleChange(e: any): void {
+    function handleChange(e: ChangeEvent<HTMLInputElement>): void {
         setValue(e.target.value);
     }
 
-    function handleSubmit(e: any): void {
+    function handleSubmit(e: FormEvent<HTMLFormElement>): void {
         e.preventDefault();
         setIsLoading(true);
 

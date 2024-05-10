@@ -1,18 +1,17 @@
 import { useSelector } from "react-redux";
-import { GameData, IStore, ScoreData, Winner } from "../../../@types/types";
-// import useReady from "../../hooks/useReady";
+import { GameData, IStore, ScoreData, ScoreObj, Winner } from "../../../@types/types";
 import StatsItem from "../StatsItem";
 
-
-type ScoreObj = {
-    [key: string]: ScoreData[];
+type Props = {
+    games: GameData[];
+    playerId: string | undefined;
 }
 
-const StatsList = ({games, playerId} :any) => {
+const StatsList = ({games, playerId}: Props) => {
     const scoreObj: ScoreObj = {};
     const winners: Winner = useSelector((state: IStore)=> state.players.winners);
 
-    const items = games.map((game: GameData) => {
+    const items = games.map((game) => {
         let best: number = 0;
 
         if (!scoreObj.hasOwnProperty(game.id)) {

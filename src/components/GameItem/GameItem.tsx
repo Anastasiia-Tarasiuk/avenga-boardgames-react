@@ -4,6 +4,7 @@ import Button from "../Button";
 import { GameData, IStore } from "../../../@types/types";
 import { useDispatch, useSelector } from "react-redux";
 import { addFavourite, addGame } from "../../store/actions";
+import Icon from "../Icon";
 
 type Props = {
     state: string;
@@ -13,7 +14,7 @@ type Props = {
     onClick: (e: MouseEvent<HTMLButtonElement>)=> void;
     children: string;
     item: GameData;
-    isImagesLoaded?: any;
+    isImagesLoaded?: boolean;
 }
 
 const GameItem = ({state, url, name, id, children, item, onClick, isImagesLoaded}: Props): JSX.Element => {
@@ -48,7 +49,7 @@ const GameItem = ({state, url, name, id, children, item, onClick, isImagesLoaded
             <Button id={id} buttonType="button" onClick={(e)=>onClick(e)} children={children}/>
             {isFavouritePage 
                 ? <Button id={id} buttonType="button" onClick={(e)=>saveItem(e, item, "gameList")} children="Add to list" disabled={isDisabled(id, gameList)}/>
-                : <Button id={id} buttonType="button" onClick={(e)=>saveItem(e, item, "favourites")} children="<3" disabled={isDisabled(id, favourites)}/>
+                : <Button id={id} buttonType="button" onClick={(e)=>saveItem(e, item, "favourites")} children={isDisabled(id, favourites) ? <Icon state="disabled_heart"/> : <Icon state="heart"/>} disabled={isDisabled(id, favourites)}/>
             }
         </li>
     )

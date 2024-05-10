@@ -3,7 +3,7 @@ import Button from "../Button";
 
 type Props = {
     name: string;
-    onClick: any;
+    onClick: (name: string) => void;
     children: string;
 }
 

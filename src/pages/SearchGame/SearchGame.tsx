@@ -8,7 +8,7 @@ import { setCurrentGame } from "../../store/actions";
 import { useDispatch } from "react-redux";
 
 const SearchGame = () => {
-    const [searchGames, isLoading, isImagesLoaded, error] = useOutletContext<any>();
+    const [searchGames, isLoading, isImagesLoaded, error] = useOutletContext<any[]>();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 

@@ -8,7 +8,7 @@ type Props = {
     list: GameData[];
     onClick: (e: MouseEvent<HTMLButtonElement>) => void;
     children: string;
-    isImagesLoaded?: any;
+    isImagesLoaded?: boolean;
 }
 
 const GameList = ({list, onClick, children, isImagesLoaded}: Props): JSX.Element => {

@@ -1,8 +1,13 @@
+import { ScoreData, Winner } from "../../../@types/types";
 import Icon from "../Icon";
 
+type Props = {
+    item: ScoreData;
+    best: number;
+    winners: Winner
+}
 
-const ScoreItem = ({item, best, winners }: any) => {
-
+const ScoreItem = ({item, best, winners }: Props) => {
     function parseDate(date: string) {
         return new Date(Number(date)).toLocaleDateString('en-GB', {  
             day:   'numeric',

@@ -1,6 +1,10 @@
 import sprite from "../../assets/sprite.svg";
 
-const Icon = ({state}: any) => {
+type Props = {
+    state: string;
+}
+
+const Icon = ({state}: Props) => {
     let path = null;
 
     switch (state) {
@@ -10,13 +14,19 @@ const Icon = ({state}: any) => {
         case "best":
             path = "#best_score";
             break;
+        case "heart":
+            path = "#heart";
+            break;    
+        case "disabled_heart":
+            path = "#disabled_heart";
+            break;  
         default:
             path = null;
             break;
     }
 
     return (
-        <svg width="20" height="20">
+        <svg width="20" height="20" >
             <use href={sprite + path}></use>
         </svg>
     )

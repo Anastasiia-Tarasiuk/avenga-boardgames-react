@@ -4,7 +4,6 @@ type Props = {
     children: ReactNode;
 }
 
-
 const ScoreList = ({children}: Props) => {
     return <ul>{children}</ul>
 }
