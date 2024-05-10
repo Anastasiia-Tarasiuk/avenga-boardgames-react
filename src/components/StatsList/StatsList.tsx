@@ -1,17 +1,20 @@
 import { useSelector } from "react-redux";
 import { GameData, IStore, ScoreData, ScoreObj, Winner } from "../../../@types/types";
 import StatsItem from "../StatsItem";
+import { forwardRef } from "react";
 
 type Props = {
     games: GameData[];
     playerId: string | undefined;
 }
 
-const StatsList = ({games, playerId}: Props) => {
+const StatsList = forwardRef(({games, playerId}: Props, ref: any) => {
+   
     const scoreObj: ScoreObj = {};
     const winners: Winner = useSelector((state: IStore)=> state.players.winners);
 
     const items = games.map((game) => {
+
         let best: number = 0;
 
         if (!scoreObj.hasOwnProperty(game.id)) {
@@ -28,7 +31,7 @@ const StatsList = ({games, playerId}: Props) => {
                     }
                 }
             }) 
-        } 
+        }
 
         if (scoreObj[game.id].length > 0) {
             return <StatsItem key={game.id} game={game} best={best} winners={winners} scoreObj={scoreObj}/>
@@ -37,7 +40,7 @@ const StatsList = ({games, playerId}: Props) => {
         }
     })
 
-    return <ul>{items}</ul>
-}
+    return <ul ref={ref}>{items}</ul>
+})
 
 export default StatsList;

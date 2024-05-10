@@ -17,7 +17,7 @@ const ScoreItem = ({item, best, winners }: Props) => {
     }
 
     return (
-        <li key={item.date}>
+        <li>
             <p>{parseDate(item.date)} <span>{item.score}</span> {best === Number(item.score) && <Icon state="best"/>} {winners[item.date]?.player === item.player && <Icon state="medal"/> }</p>
         </li>
     )

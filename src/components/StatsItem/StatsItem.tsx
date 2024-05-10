@@ -13,11 +13,12 @@ type Props = {
 
 const StatsItem = ({game, best, winners, scoreObj}: Props) => {
     const {readyState} = useReady();
+
     return (
         <li>
             <ImageContainer url={game.image} alt={game.name} state={readyState}/>
             <ScoreList children={scoreObj[game.id].map((item: ScoreData) => {
-                return <ScoreItem key={game.id} item={item} best={best} winners={winners}/>
+                return <ScoreItem key={item.date} item={item} best={best} winners={winners}/>
             })}/>
         </li>
     )

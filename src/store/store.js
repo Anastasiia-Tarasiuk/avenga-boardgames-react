@@ -9,5 +9,5 @@ const persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStor
 export const store = createStore(rootReducer, persistedState,  enhancer);
 
 store.subscribe(()=>{
-    localStorage.setItem('reduxState', JSON.stringify(store.getState()))
-  })
+    localStorage.setItem('reduxState', JSON.stringify(store.getState()));
+})
