@@ -12,15 +12,14 @@ const Players = (): JSX.Element => {
         navigate(`/player/${playerId}`, { replace: false });
     }
 
-    const items = players.map((player: PlayerData)=> {
-        const name = player.name;
-        return <PlayerItem key={name} name={name} children={name} onClick={onSeeScoreButtonClick}/>
-    })
-
     return (
         <>
             <PageHeading children="Players"/>
-            <ul>{items}</ul>
+            <ul>
+                {players.map((player: PlayerData)=> {
+        const name = player.name;
+        return <PlayerItem key={name} name={name} children={name} onClick={onSeeScoreButtonClick}/>
+            })}</ul>
         </>
     )
 }
