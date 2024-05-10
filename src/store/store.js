@@ -4,4 +4,10 @@ import { devToolsEnhancer } from "@redux-devtools/extension";
 
 const enhancer = devToolsEnhancer();
 
-export const store = createStore(rootReducer, enhancer);
+const persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStorage.getItem('reduxState')): {};
+
+export const store = createStore(rootReducer, persistedState,  enhancer);
+
+store.subscribe(()=>{
+    localStorage.setItem('reduxState', JSON.stringify(store.getState()))
+  })
