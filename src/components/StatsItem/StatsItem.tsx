@@ -10,7 +10,7 @@ const StatsItem = ({game, best, winners, scoreObj} :any) => {
         <li key={game.id}>
             <ImageContainer url={game.image} alt={game.name} state={readyState}/>
             <ScoreList children={scoreObj[game.id].map((item: ScoreData) => {
-                return <ScoreItem item={item} best={best} winners={winners}/>
+                return <ScoreItem key={game.id} item={item} best={best} winners={winners}/>
             })}/>
         </li>
     )
