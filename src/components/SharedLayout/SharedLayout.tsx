@@ -5,7 +5,8 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { GameData } from "../../../@types/types";
 import fetchAPI from "../../utils/gameFetch";
 import no_image from "../../assets/no_image.jpg";
-
+import Image from "../Image";
+import logo from "../../assets/logo.png";
 
 const SharedLayout = (): JSX.Element => {
     const navigate = useNavigate();
@@ -109,7 +110,7 @@ const SharedLayout = (): JSX.Element => {
     return (
         <div>
             <header className={css.header}>
-                <NavLink to="/">LOGO</NavLink>
+                <NavLink to="/"><Image className={css.logo} src={logo} alt="Logo"/></NavLink>
                 <nav>
                     <ul className={css["header-menu"]}>
                         <li><NavLink to="/"> My list</NavLink></li>
@@ -122,7 +123,7 @@ const SharedLayout = (): JSX.Element => {
                             }</li>
                         <li><NavLink to="/favourites">Favourites</NavLink></li>
                         <li><NavLink to="/players">Players</NavLink></li>
-                        <li><NavLink to="/settings">Settings</NavLink></li>
+                        {/* <li><NavLink to="/settings">Settings</NavLink></li> */}
                     </ul>
                 </nav>
             </header>

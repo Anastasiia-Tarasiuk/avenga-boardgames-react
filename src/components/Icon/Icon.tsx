@@ -2,9 +2,13 @@ import sprite from "../../assets/sprite.svg";
 
 type Props = {
     state: string;
+    size?: {
+        width: string;
+        height: string;
+    }
 }
 
-const Icon = ({state}: Props) => {
+const Icon = ({state, size={width: "20", height: "20"}}: Props) => {
     let path = null;
 
     switch (state) {
@@ -26,7 +30,7 @@ const Icon = ({state}: Props) => {
     }
 
     return (
-        <svg width="20" height="20" >
+        <svg width={size.width} height={size.height}>
             <use href={sprite + path}></use>
         </svg>
     )

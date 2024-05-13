@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateFavourite } from "../../store/actions";
 import GameList from "../../components/GameList";
 import { MouseEvent } from "react";
+import { toast } from "react-toastify";
 
 const Favourites = () => {
     const favourites: GameData[] = useSelector((state: IStore) => state.favourites.favourites);
@@ -13,6 +14,7 @@ const Favourites = () => {
     function removeFromFavourites(e: MouseEvent<HTMLButtonElement>) {
         const id: string | undefined = e.currentTarget.dataset.id;
         dispatch(updateFavourite(id));
+        toast.success("The game was removed from Favourites");
     }
 
     return (

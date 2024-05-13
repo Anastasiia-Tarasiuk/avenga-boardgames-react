@@ -45,3 +45,8 @@ export type ScoreObj = {
     [key: string]: ScoreData[];
 }
 
+export type ImageData = {
+    src: string; 
+    alt: string; 
+    className?: string;
+}

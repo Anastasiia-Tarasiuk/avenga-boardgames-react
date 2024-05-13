@@ -52,7 +52,7 @@ const GameItem = ({state, url, name, id, children, item, onClick, isImagesLoaded
             <Button id={id} buttonType="button" onClick={(e)=>onClick(e)} children={children}/>
             {isFavouritePage 
                 ? <Button id={id} buttonType="button" onClick={(e)=>saveItem(e, item, "gameList")} children="Add to list" disabled={isDisabled(id, gameList)}/>
-                : <Button id={id} buttonType="button" onClick={(e)=>saveItem(e, item, "favourites")} children={isDisabled(id, favourites) ? <Icon state="disabled_heart"/> : <Icon state="heart"/>} disabled={isDisabled(id, favourites)}/>
+                : <Button id={id} buttonType="button" onClick={(e)=>saveItem(e, item, "favourites")} children={isDisabled(id, favourites) ? <Icon state="disabled_heart" size={{width: "10", height: "10"}}/> : <Icon state="heart" size={{width: "10", height: "10"}}/>} disabled={isDisabled(id, favourites)}/>
             }
         </li>
     )

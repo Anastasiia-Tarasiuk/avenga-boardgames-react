@@ -25,7 +25,7 @@ const SearchGame = () => {
             {isLoading && <Text children="Loading..." />}
             {error 
             ? <Text children={error}/>
-            : <GameList onClick={(e) => gameItemHandleClick(e)} list={searchGames} isImagesLoaded={isImagesLoaded} children="See more"/> }
+            : <GameList onClick={(e) => gameItemHandleClick(e)} list={searchGames} isImagesLoaded={isImagesLoaded} children="See more" isLoading={isLoading}/> }
         </>
     )
 }

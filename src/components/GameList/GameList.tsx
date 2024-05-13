@@ -3,15 +3,17 @@ import { MouseEvent } from "react";
 import { GameData } from "../../../@types/types";
 import useReady from "../../hooks/useReady";
 import css from "./GameList.module.css";
+import Text from "../Text";
 
 type Props = {
     list: GameData[];
     onClick: (e: MouseEvent<HTMLButtonElement>) => void;
     children: string;
     isImagesLoaded?: boolean;
+    isLoading?: boolean;
 }
 
-const GameList = ({list, onClick, children, isImagesLoaded}: Props): JSX.Element => {
+const GameList = ({list, onClick, children, isImagesLoaded, isLoading}: Props): JSX.Element => {
     const {readyState} = useReady();
 
     const items = list.map((item: GameData) => {
@@ -21,7 +23,7 @@ const GameList = ({list, onClick, children, isImagesLoaded}: Props): JSX.Element
     })
 
     return (
-        <ul className={css["game-list"]}>{items}</ul>
+        <ul className={css["game-list"]}>{!isLoading && <>{items.length > 0 ? items : <Text children="Type game name to search"/>}</>}</ul>
     )
 }
 

@@ -1,5 +1,5 @@
 import no_item from "../../assets/no_image.jpg";
-import Image from "../Image";
+import ImageCard from "../ImageCard";
 
 type Props = {
     url: string; 
@@ -12,10 +12,10 @@ const ImageContainer = ({url, alt, state, isImagesLoaded}: Props) => {
     return (
         isImagesLoaded 
         ? <>{isImagesLoaded 
-            ? <Image url={url} name={alt} />
-            : <Image url={no_item} name={alt} />}
+            ? <ImageCard url={url} name={alt} />
+            : <ImageCard url={no_item} name={alt} />}
         </>
-        : <>{state ? <Image url={url} name={alt} /> : <Image url={no_item} name={alt} />}</>
+        : <>{state ? <ImageCard url={url} name={alt} /> : <ImageCard url={no_item} name={alt} />}</>
     )
 }
 
