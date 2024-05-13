@@ -14,7 +14,6 @@ const StatsList = forwardRef(({games, playerId}: Props, ref: any) => {
     const winners: Winner = useSelector((state: IStore)=> state.players.winners);
 
     const items = games.map((game) => {
-
         let best: number = 0;
 
         if (!scoreObj.hasOwnProperty(game.id)) {

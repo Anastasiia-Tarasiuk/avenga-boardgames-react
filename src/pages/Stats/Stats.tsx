@@ -21,7 +21,6 @@ const Stats = (): JSX.Element => {
         }
     }, [])
     
-    
     return (
         <>
         <PageHeading children={`Game stats of ${playerId}`}/>

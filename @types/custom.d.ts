@@ -13,6 +13,8 @@ declare module "*.jpg" {
     export default content;
 }
 
-declare module 'xml-js';
+declare module "xml-js";
 
 declare module "*.module.css";
+
+declare module "lodash.debounce";

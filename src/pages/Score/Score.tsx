@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import PageHeading from "../../components/PageHeading";
 import PlayerSelect from "../../components/PlayerSelect";
 import PlayerScore from "../../components/PlayerScore";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import ModalOverlay from "../../components/ModalOverlay";
 import AddPlayerContent from "../../components/AddPlayerContent";
 import { GameData, IStore, PlayerData } from "../../../@types/types";
@@ -11,6 +11,8 @@ import ImageContainer from "../../components/ImageContainer";
 import useReady from "../../hooks/useReady";
 import { useDispatch, useSelector } from "react-redux";
 import { addPlayer, setWinners, updateGames, updatePlayers } from "../../store/actions";
+import { toast } from "react-toastify";
+import debounce from "lodash.debounce";
 
 const Score = (): JSX.Element => {
     const { gameId } = useParams<{gameId: string}>();
@@ -41,11 +43,24 @@ const Score = (): JSX.Element => {
         };
     }, [dispatch, players]);
 
+    const debouncedFunc = useRef(
+        debounce(async (value: string, player: string) => {
+            addScore(value, player);
+        }, 500)
+    ).current;
+
+    useEffect(() => {
+        return () => {
+            debouncedFunc.cancel();
+        };
+    }, [debouncedFunc]);
+
     function handleSelectClick(e: ChangeEvent<HTMLSelectElement>) {
         const value = e.currentTarget.value;
 
         if (value === "new-player") {
             setShowModal(true);
+            e.currentTarget.options[0].selected = true;
         } else {
             if (value !== ""){
                 setCurrentPlayer(value);
@@ -67,10 +82,7 @@ const Score = (): JSX.Element => {
         setPlayers(newPlayers);
     }
 
-    function addScore(e: ChangeEvent<HTMLInputElement>) {
-        const currentScore = e.currentTarget.value;
-        setScore(currentScore);
-
+    function addScore(currentScore: string, player: string) {
         gameList.forEach((game: GameData) => {
             if (game.id === gameId) {
                 if (!game.score) {
@@ -79,25 +91,27 @@ const Score = (): JSX.Element => {
 
                 const scoreObj: ScoreData = {
                     date,
-                    player: currentPlayer,
+                    player: player,
                     score: currentScore
                 }
 
-                const index = game.score.findIndex((score: ScoreData)=> score.date === date && score.player === currentPlayer);
+                const index = game.score.findIndex((score: ScoreData)=> score.date === date && score.player === player);
 
                 if (index === -1) {
                     game.score.push(scoreObj);
+                    toast.success(`The score was added for ${player}`)
                 } else {
-                    game.score.splice(index, 1, scoreObj)
+                    game.score.splice(index, 1, scoreObj);
+                    toast.info(`The score was changed for ${player}`)
                 }
 
-                saveWinner(date, currentScore, currentPlayer);
+                saveWinner(date, currentScore, player);
             }
         })
 
-        players.forEach(player => {
-            if (player.name === currentPlayer) {
-                player.score = currentScore;
+        players.forEach(statePlayer => {
+            if (statePlayer.name === player) {
+                statePlayer.score = currentScore;
             }
         })
 
@@ -112,21 +126,26 @@ const Score = (): JSX.Element => {
         const index = players.findIndex(player => player.name.toLowerCase() === newPlayer.toLowerCase())
 
         if (index !== -1) {
-            // handle case
+            toast.error("Such player already exists");
             return;
+        } else {
+            toast.success("New player was added");
         }
 
         setScore("0");
         setCurrentPlayer(newPlayer);
         const newPlayerObj = {"name": newPlayer, "hidden": false, score: 0};
-        dispatch(addPlayer(newPlayerObj))
+        dispatch(addPlayer(newPlayerObj));
         setShowModal(false);
         setPlayers(prevState => [...prevState, {...newPlayerObj}]);
         setNewPlayer("");
     }
 
     function onInputClick(name: string) {
-        setCurrentPlayer(name);
+        if (currentPlayer !== name) {
+            setCurrentPlayer(name);
+        }
+
         setScore("");
     }
 
@@ -141,13 +160,19 @@ const Score = (): JSX.Element => {
         }
         dispatch(setWinners(winners));
     }
+
+    function setInputValue(e: ChangeEvent<HTMLInputElement>){
+        const value = e.currentTarget.value;
+        setScore(value);
+        debouncedFunc(value, currentPlayer);
+    }
     
     return (
         <>
             <PageHeading children="Set score"/>
             <ImageContainer  url={data.image} alt={data.name} state={readyState}/>
             <PlayerSelect players={players} onChange={(e: ChangeEvent<HTMLSelectElement>) => handleSelectClick(e)}/>
-            <PlayerScore onClick={(name: string)=>onInputClick(name)} players={players} currentPlayer={currentPlayer} score={score} onChange={(e: ChangeEvent<HTMLInputElement>)=>addScore(e)}/>
+            <PlayerScore onClick={(name: string)=>onInputClick(name)} players={players} currentPlayer={currentPlayer} score={score} onChange={(e: ChangeEvent<HTMLInputElement>)=>setInputValue(e)}/>
             {showModal && <ModalOverlay close={() => setShowModal(false)} content={<AddPlayerContent value={newPlayer} onChange={(e: ChangeEvent<HTMLInputElement>)=>addPlayerName(e)} onClick={()=>{onSavePlayerButtonClick()}}/>} />}
         </>
     )

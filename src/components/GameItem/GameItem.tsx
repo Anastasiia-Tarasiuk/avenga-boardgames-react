@@ -5,6 +5,7 @@ import { GameData, IStore } from "../../../@types/types";
 import { useDispatch, useSelector } from "react-redux";
 import { addFavourite, addGame } from "../../store/actions";
 import Icon from "../Icon";
+import { toast } from "react-toastify";
 
 type Props = {
     state: string;
@@ -28,9 +29,11 @@ const GameItem = ({state, url, name, id, children, item, onClick, isImagesLoaded
         switch (name) {
             case "favourites":
                 dispatch(addFavourite(item));
+                toast.success("The game was added to Favoutires");
                 break;
             case "gameList":
-                dispatch(addGame(item))
+                dispatch(addGame(item));
+                toast.success("The game was added to My list");
                 break;
             default:
                 break;
