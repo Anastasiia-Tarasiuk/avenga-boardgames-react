@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { ADDGAME, ADDPLAYER, ADDFAVOURITE, SETCURRENTGAME, SETDATE, UPDATEGAMES, UPDATEFAVOURITE, UPDATEPLAYERS, SETWINNERS} from "./types";
+import { ADDGAME, ADDPLAYER, ADDFAVOURITE, SETCURRENTGAME, SETDATE, UPDATEGAMES, UPDATEFAVOURITE, UPDATEPLAYERS, SETWINNERS, SETHOTTEST} from "./types";
 import { initialState } from "./initialState";
 
 const gameReducer = (store = initialState.games, action) => {
@@ -76,11 +76,25 @@ const favouriteReducer = (store = initialState.favourites, action) => {
         default:
             return store;
     }
-} ;
+};
+
+const hottestReducer = (store = initialState.hottest, action) => {
+    switch (action.type) {
+        case SETHOTTEST:
+            return {
+                ...store,
+                hottest: action.payload
+            };
+      
+        default:
+            return store;
+    }
+}
 
 
 export const rootReducer = combineReducers({
     games: gameReducer,
     players: playerReducer, 
     favourites: favouriteReducer,
+    hottest: hottestReducer,
 })

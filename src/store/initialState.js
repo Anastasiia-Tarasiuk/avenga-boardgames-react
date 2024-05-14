@@ -14,5 +14,8 @@ export const initialState = {
     },
     favourites: {
         favourites: []
+    },
+    hottest: {
+        hottest: []
     }
 }

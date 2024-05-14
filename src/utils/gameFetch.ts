@@ -9,9 +9,15 @@ async function fetchAPI(url: string) {
         }
 
         const xmlString = await response.text();
-        const {boardgames} = JSON.parse(convert.xml2json(xmlString, {compact: true, spaces: 4}));
+        
+        if (url.includes("xmlapi2")) {
+            const {items} = JSON.parse(convert.xml2json(xmlString, {compact: true, spaces: 4}));
+            return items.item;
+        } else {
+            const {boardgames} = JSON.parse(convert.xml2json(xmlString, {compact: true, spaces: 4}));
+            return boardgames.boardgame;
+        }
 
-        return boardgames.boardgame;
     } catch (error) {
         console.error("There has been a problem with your fetch operation:", error);
     }

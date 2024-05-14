@@ -1,0 +1,15 @@
+.slider_list {
+    display: flex;
+}
+
+.slider_list li:not(:last-child) {
+    margin-right: 20px;
+}
+
+.slider_list li {
+    background-color: grey;
+}
+
+.container {
+    display: flex;
+}

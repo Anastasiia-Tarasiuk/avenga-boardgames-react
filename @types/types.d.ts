@@ -37,8 +37,10 @@ export interface IStore {
     },
     favourites: {
         favourites: GameData[]
+    },
+    hottest: {
+        hottest: any[]
     }
-    
 }
 
 export type ScoreObj = {

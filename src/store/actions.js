@@ -1,4 +1,4 @@
-import { SETDATE, SETCURRENTGAME, ADDGAME, UPDATEPLAYERS, SETWINNERS, UPDATEGAMES, ADDFAVOURITE, UPDATEFAVOURITE, ADDPLAYER } from "./types";
+import { SETDATE, SETCURRENTGAME, ADDGAME, UPDATEPLAYERS, SETWINNERS, UPDATEGAMES, ADDFAVOURITE, UPDATEFAVOURITE, ADDPLAYER, SETHOTTEST } from "./types";
 
 export const setDate = (date) => {
     return {type: SETDATE, payload: date}
@@ -34,4 +34,8 @@ export const updateFavourite = (id) => {
 
 export const addPlayer = (player) => {
     return {type: ADDPLAYER, payload: player}
+}
+
+export const setHottest = (items) => {
+    return {type: SETHOTTEST, payload: items}
 }

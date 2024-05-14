@@ -1,4 +1,4 @@
-import ListItem from "../GameItem/GameItem";
+import GameItem from "../GameItem/GameItem";
 import { MouseEvent } from "react";
 import { GameData } from "../../../@types/types";
 import useReady from "../../hooks/useReady";
@@ -19,7 +19,7 @@ const GameList = ({list, onClick, children, isImagesLoaded, isLoading}: Props): 
     const items = list.map((item: GameData) => {
         const id = item.id;
         const name = item.name;
-        return <ListItem key={id} state={readyState} url={item.image} name={name} id={id} children={children} item={item} onClick={onClick} isImagesLoaded={isImagesLoaded}/>
+        return <GameItem key={id} state={readyState} url={item.image} name={name} id={id} children={children} item={item} onClick={onClick} isImagesLoaded={isImagesLoaded}/>
     })
 
     return (
