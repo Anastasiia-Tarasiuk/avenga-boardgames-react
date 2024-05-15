@@ -4,12 +4,12 @@ import Button from "../Button";
 import ImageContainer from "../ImageContainer";
 import css from "./SliderList.module.css";
 import { MouseEvent } from "react";
+import SliderItem from "../SliderItem";
 
-const SliderList = ({list, onClick, children=""}: any) => {
+const SliderList = ({list, onClick}: any) => {
     const {readyState} = useReady();
     const [shownIndex, setShownIndex] = useState<number>(0);
-
-    console.log(list)
+    
 
     function handleButtonClick(e: MouseEvent<HTMLButtonElement>) {
         const id: string | undefined = e.currentTarget.dataset.id;
@@ -26,6 +26,19 @@ const SliderList = ({list, onClick, children=""}: any) => {
         }
     }
 
+    function filterArray(list: any) {
+        const filtered = [];
+
+        for (let index = 0; index < list.length; index++) {
+            const item = list[index];
+            if (index >= shownIndex && index < shownIndex + 5) {
+                filtered.push(item);
+            } 
+        }
+
+        return filtered;
+    }
+
     return (
         <>
             {list.length> 0 && 
@@ -37,15 +50,11 @@ const SliderList = ({list, onClick, children=""}: any) => {
                 
                 <ul className={css["slider_list"]}>
                     {
-                        list.map(((item: any, index: number) => {
-                            if (index >= shownIndex && index < shownIndex + 5) {
-                                const id:string = item._attributes.id;
-                                const name = item.name._attributes.value;
-                                const url = item.thumbnail._attributes.value;
-                                return (<li key={id} onClick={()=>onClick(id, item)}><ImageContainer url={url} alt={name} state={readyState}/></li>)
-                            } else {
-                                return <></>
-                            }
+                        filterArray(list).map(((item: any) => {
+                            const id: string = item._attributes.id;
+                            const name: string = item.name._attributes.value;
+                            const url: string = item.thumbnail._attributes.value;
+                            return <SliderItem id={id} onClick={onClick} url={url} item={item} alt={name} />
                         }))
                     }
                 </ul>

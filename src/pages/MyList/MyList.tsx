@@ -40,17 +40,13 @@ const MyList = (): JSX.Element => {
             isFavourite: false,
         };
 
-
-
-        console.log(id)
-        console.log(123)
         dispatch(setCurrentGame(game));
         navigate(`/game/${id}`, { replace: false });
     }
 
     return (
         <>
-            <SliderList list={hottest} onClick={(id: string, item: any)=>seeHottestGame(id, item)}/> 
+            <SliderList className="main-container" list={hottest} onClick={(id: string, item: any)=>seeHottestGame(id, item)}/> 
             <PageHeading children="My list"/>
             {gameList.length > 0
                 ? <GameList list={gameList} onClick={(e)=>onAddScoreButtonClick(e)} children="Add score"/>

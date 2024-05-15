@@ -12,4 +12,7 @@
 
 .container {
     display: flex;
+    padding: 40px;
+    background-image: url("../../assets/board-games-background.jpeg");
+    padding: 20px 40px;
 }
