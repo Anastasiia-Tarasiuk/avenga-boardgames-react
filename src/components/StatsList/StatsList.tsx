@@ -9,11 +9,11 @@ type Props = {
 }
 
 const StatsList = forwardRef(({games, playerId}: Props, ref: any) => {
-   
+    const filtered: any[] = []
     const scoreObj: ScoreObj = {};
     const winners: Winner = useSelector((state: IStore)=> state.players.winners);
 
-    const items = games.map((game) => {
+    games.forEach((game) => {
         let best: number = 0;
 
         if (!scoreObj.hasOwnProperty(game.id)) {
@@ -33,13 +33,17 @@ const StatsList = forwardRef(({games, playerId}: Props, ref: any) => {
         }
 
         if (scoreObj[game.id].length > 0) {
-            return <StatsItem key={game.id} game={game} best={best} winners={winners} scoreObj={scoreObj}/>
-        } else {
-            return <></>
-        }
+            filtered.push({game, best})
+        } 
     })
 
-    return <ul ref={ref}>{items}</ul>
+    return (
+        <ul ref={ref}>{
+            filtered.map(item => {
+                return <StatsItem key={item.game.id} game={item.game} best={item.best} winners={winners} scoreObj={scoreObj}/>
+            })}
+        </ul>
+    )
 })
 
 export default StatsList;
