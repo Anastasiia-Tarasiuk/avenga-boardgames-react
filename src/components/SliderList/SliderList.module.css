@@ -1,18 +1,8 @@
-.slider_list {
-    display: flex;
-}
-
-.slider_list li:not(:last-child) {
-    margin-right: 20px;
-}
-
-.slider_list li {
-    background-color: grey;
-}
-
 .container {
     display: flex;
-    padding: 40px;
-    background-image: url("../../assets/board-games-background.jpeg");
-    padding: 20px 40px;
+    justify-content: center;
+} 
+
+.arrow {
+    transform: rotate(180deg);
 }

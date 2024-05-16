@@ -1,5 +1,4 @@
 import Text from "../Text";
-import css from "./ImageCard.module.css";
 import Image from "../Image/Image";
 
 type Props = {
@@ -8,7 +7,7 @@ type Props = {
 }
 
 const ImageCard = ({url, name}: Props) => {
-    return <div className={css["image-card"]}>
+    return <div>
         <Image src={url} alt={name}/>
         <Text children={name}/>
     </div>

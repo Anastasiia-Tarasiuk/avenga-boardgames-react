@@ -1,16 +1,13 @@
 import { useState } from "react";
-import useReady from "../../hooks/useReady";
 import Button from "../Button";
-import ImageContainer from "../ImageContainer";
 import css from "./SliderList.module.css";
 import { MouseEvent } from "react";
 import SliderItem from "../SliderItem";
+import Icon from "../Icon";
 
-const SliderList = ({list, onClick}: any) => {
-    const {readyState} = useReady();
+const SliderList = ({list, onClick, className}: any) => {
     const [shownIndex, setShownIndex] = useState<number>(0);
     
-
     function handleButtonClick(e: MouseEvent<HTMLButtonElement>) {
         const id: string | undefined = e.currentTarget.dataset.id;
 
@@ -44,24 +41,24 @@ const SliderList = ({list, onClick}: any) => {
             {list.length> 0 && 
             <div className={css.container}>
                 {shownIndex === 0 
-                    ? <Button id="next" buttonType="button" children="<=" onClick={(e) => handleButtonClick(e)} disabled={true}/>
-                    : <Button id="next" buttonType="button" children="<=" onClick={(e) => handleButtonClick(e)} disabled={false}/>
+                    ? <Button id="next" buttonType="button" children={<Icon className={css.arrow} state="arrow"/>} onClick={(e) => handleButtonClick(e)} disabled={true}/>
+                    : <Button id="next" buttonType="button" children={<Icon className={css.arrow} state="arrow"/>}onClick={(e) => handleButtonClick(e)} disabled={false}/>
                 }
                 
-                <ul className={css["slider_list"]}>
+                <ul className={className}>
                     {
                         filterArray(list).map(((item: any) => {
                             const id: string = item._attributes.id;
                             const name: string = item.name._attributes.value;
                             const url: string = item.thumbnail._attributes.value;
-                            return <SliderItem id={id} onClick={onClick} url={url} item={item} alt={name} />
+                            return <SliderItem key={id} onClick={onClick} url={url} item={item} alt={name} />
                         }))
                     }
                 </ul>
 
                 {shownIndex === list.length - 5
-                    ? <Button id="prev" buttonType="button" children="=>" onClick={(e) => handleButtonClick(e)} disabled={true}/>
-                    : <Button id="prev" buttonType="button" children="=>" onClick={(e) => handleButtonClick(e)} disabled={false}/>
+                    ? <Button id="prev" buttonType="button" children={<Icon state="arrow"/>} onClick={(e) => handleButtonClick(e)} disabled={true}/>
+                    : <Button id="prev" buttonType="button" children={<Icon state="arrow"/>} onClick={(e) => handleButtonClick(e)} disabled={false}/>
                 }
             </div>}
         </>

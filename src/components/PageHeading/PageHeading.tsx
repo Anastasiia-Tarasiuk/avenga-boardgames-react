@@ -4,7 +4,7 @@ type Props = {
 
 const PageHeading = ({children}: Props): JSX.Element => {
     return (
-        <h2>{children}</h2>
+        <h2 className="heading">{children}</h2>
     )
 }
 

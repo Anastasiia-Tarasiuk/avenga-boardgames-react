@@ -1,11 +1,19 @@
 .header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 20px 40px;
 }
 
-main {
-    /* padding: 20px 40px; */
+.header li {
+    background-color: rgb(211,211,211);
+    padding: 10px;
+}
+
+.header li:hover {
+    background-color: rgb(252,230,66);
+    color: rgb(61,189,195);
+    
 }
 
 .header-menu {
@@ -19,7 +27,7 @@ main {
     margin-right: 20px;
 }
 
-.logo {
+.header img {
     width: 40px;
     height: 40px;
 }

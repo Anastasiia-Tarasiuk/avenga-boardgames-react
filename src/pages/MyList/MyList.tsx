@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCurrentGame, setDate, setHottest } from "../../store/actions";
 import fetchAPI from "../../utils/gameFetch";
 import SliderList from "../../components/SliderList";
+import css from "./MyList.module.css";
 
 const MyList = (): JSX.Element => {
     const url: string = "https://www.boardgamegeek.com/xmlapi2/hot?boardgame";
@@ -46,11 +47,15 @@ const MyList = (): JSX.Element => {
 
     return (
         <>
-            <SliderList className="main-container" list={hottest} onClick={(id: string, item: any)=>seeHottestGame(id, item)}/> 
-            <PageHeading children="My list"/>
-            {gameList.length > 0
-                ? <GameList list={gameList} onClick={(e)=>onAddScoreButtonClick(e)} children="Add score"/>
-                : <Text children="No items"/>}
+            <div className={`${css["section-container"] + " " + css["slider-section-container"]}`}>
+                <SliderList className={css.slider} list={hottest} onClick={(id: string, item: any)=>seeHottestGame(id, item)}/> 
+            </div>
+            <div className={css["section-container"]}>
+                <PageHeading children="My list"/>
+                {gameList.length > 0
+                    ? <GameList className={css.list} list={gameList} onClick={(e)=>onAddScoreButtonClick(e)} children="Add score"/>
+                    : <Text children="No items"/>}
+            </div>
         </>
     )
 }

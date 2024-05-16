@@ -2,7 +2,6 @@ import GameItem from "../GameItem/GameItem";
 import { MouseEvent } from "react";
 import { GameData } from "../../../@types/types";
 import useReady from "../../hooks/useReady";
-import css from "./GameList.module.css";
 import Text from "../Text";
 
 type Props = {
@@ -11,9 +10,10 @@ type Props = {
     children: string;
     isImagesLoaded?: boolean;
     isLoading?: boolean;
+    className?: string
 }
 
-const GameList = ({list, onClick, children, isImagesLoaded, isLoading}: Props): JSX.Element => {
+const GameList = ({list, onClick, children, isImagesLoaded, isLoading, className}: Props): JSX.Element => {
     const {readyState} = useReady();
 
     const items = list.map((item: GameData) => {
@@ -23,7 +23,7 @@ const GameList = ({list, onClick, children, isImagesLoaded, isLoading}: Props): 
     })
 
     return (
-        <ul className={css["game-list"]}>{!isLoading && <>{items.length > 0 ? items : <Text children="Type game name to search"/>}</>}</ul>
+        <ul className={className}>{!isLoading && <>{items.length > 0 ? items : <Text children="Type game name to search"/>}</>}</ul>
     )
 }
 

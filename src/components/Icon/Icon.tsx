@@ -5,10 +5,11 @@ type Props = {
     size?: {
         width: string;
         height: string;
-    }
+    };
+    className?: string;
 }
 
-const Icon = ({state, size={width: "20", height: "20"}}: Props) => {
+const Icon = ({state, size={width: "20", height: "20"}, className}: Props) => {
     let path = null;
 
     switch (state) {
@@ -24,13 +25,16 @@ const Icon = ({state, size={width: "20", height: "20"}}: Props) => {
         case "disabled_heart":
             path = "#disabled_heart";
             break;  
+        case "arrow":
+            path = "#arrow";
+            break;  
         default:
             path = null;
             break;
     }
 
     return (
-        <svg width={size.width} height={size.height}>
+        <svg className={className} width={size.width} height={size.height}>
             <use href={sprite + path}></use>
         </svg>
     )
