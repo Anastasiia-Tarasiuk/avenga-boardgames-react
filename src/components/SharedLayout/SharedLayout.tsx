@@ -83,8 +83,9 @@ const SharedLayout = (): JSX.Element => {
 
             Promise.all(promises).then((newGames) => {
                 newGames.forEach((newGame: any, index: number)=> {
+                    console.log(newGame)
                     const description = getText(newGame.description._text);
-                    defaultGames[index].image = newGame.image._text;
+                    defaultGames[index].image = newGame.image?._text || no_image;
                     defaultGames[index].description = description.replaceAll("<br/><br/>", "<br/>").replaceAll("<br/>", " ");
                     defaultGames[index].playTime = newGame.maxplaytime._text;
                 })

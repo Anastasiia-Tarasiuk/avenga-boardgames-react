@@ -1,10 +1,6 @@
 .section-container {
     padding: 40px 160px;
 }
-  
-.slider-section-container {
-    background-image: url("../../assets/board-games-background.jpeg");
-}
 
 .list {
     display: flex;
@@ -29,37 +25,10 @@
     margin-bottom: 20px;
 }
 
-.list p,
-.slider p {
+.list p {
     margin-bottom: 20px;
     width: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-.slider {
-    display: flex;
-}
-
-.slider li:not(:last-child) {
-    margin-right: 20px;
-}
-
-.slider li {
-    background-color: lightgray;
-    width: 150px;
-    position: relative;
-}
-
-.slider p {
-    margin-bottom: 0;
-    position: absolute;
-    bottom: 0;
-    background-color: rgba(211,211,211, 0.7);
-}
-
-.slider img {
-    width: 100%;
-    height: 150px;
 }

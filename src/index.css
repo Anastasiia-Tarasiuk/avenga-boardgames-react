@@ -45,3 +45,8 @@ a {
 html {
   background-color: rgb(61,189,195);
 }
+
+img {
+  display: block;
+  object-fit: cover;
+}

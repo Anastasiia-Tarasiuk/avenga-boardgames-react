@@ -10,8 +10,10 @@ type Props = {
 
 const PlayerScoreItem = ({onChange, onClick, children, score}: Props): JSX.Element => {
     return (
-        <li onClick={()=>onClick(children)}>
-            <Input inputType="number" name="score" value={score} children={children} onChange={onChange}/>
+        <li>
+            <div onClick={()=>onClick(children)}>
+                <Input inputType="number" name="score" value={score} children={children} onChange={onChange}/>
+            </div>
         </li>
     )
 }

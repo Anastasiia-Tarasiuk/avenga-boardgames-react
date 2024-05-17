@@ -6,6 +6,7 @@ import { GameData } from "../../../@types/types";
 import Text from "../../components/Text";
 import { setCurrentGame } from "../../store/actions";
 import { useDispatch } from "react-redux";
+import css from "./SearchGame.module.css";
 
 const SearchGame = () => {
     const [searchGames, isLoading, isImagesLoaded, error] = useOutletContext<any[]>();
@@ -20,13 +21,13 @@ const SearchGame = () => {
     }
 
     return (
-        <>
+        <div className={css["section-container"]}>
             <PageHeading children="Search results"/>
             {isLoading && <Text children="Loading..." />}
             {error 
             ? <Text children={error}/>
-            : <GameList onClick={(e) => gameItemHandleClick(e)} list={searchGames} isImagesLoaded={isImagesLoaded} children="See more" isLoading={isLoading}/> }
-        </>
+            : <GameList className={css.list} onClick={(e) => gameItemHandleClick(e)} list={searchGames} isImagesLoaded={isImagesLoaded} children="See more" isLoading={isLoading}/> }
+        </div>
     )
 }
 

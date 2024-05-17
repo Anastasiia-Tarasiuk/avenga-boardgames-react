@@ -8,6 +8,7 @@ import useReady from "../../hooks/useReady";
 import { useDispatch, useSelector } from "react-redux";
 import { setDate, addGame } from "../../store/actions";
 import Text from "../../components/Text";
+import css from "./Game.module.css";
 
 const Game = (): JSX.Element => {
     const {readyState} = useReady();
@@ -29,14 +30,14 @@ const Game = (): JSX.Element => {
     }
     
     return (
-        <>
+        <div className={css["section-container"]}>
             <PageHeading children="Save game to list"/>
             <ImageContainer url={data.image} alt={data.name} state={readyState}/>
             <Text children={data.description}/>
             <Text children={`Play time: ${data.playTime + " min"}`}/>
             <Button onClick={onAddButtonClick} buttonType="button" children="Add game" disabled={desible}/>
             {desible && <Button onClick={onAddScoreButtonClick} buttonType="button" children="Add score" disabled={false}/>}
-        </>
+        </div>
     )
 }
 

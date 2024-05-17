@@ -1,0 +1,9 @@
+.section-container {
+    padding: 40px 160px;
+}
+
+.section-container img {
+    width: 300px;
+    height: 300px;
+    margin-right: 20px;
+}

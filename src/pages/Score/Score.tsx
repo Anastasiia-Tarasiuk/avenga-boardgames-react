@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addPlayer, setWinners, updateGames, updatePlayers } from "../../store/actions";
 import { toast } from "react-toastify";
 import debounce from "lodash.debounce";
+import css from "./Score.module.css";
 
 const Score = (): JSX.Element => {
     const { gameId } = useParams<{gameId: string}>();
@@ -168,13 +169,17 @@ const Score = (): JSX.Element => {
     }
     
     return (
-        <>
+        <div className={css["section-container"]}>
             <PageHeading children="Set score"/>
-            <ImageContainer  url={data.image} alt={data.name} state={readyState}/>
-            <PlayerSelect players={players} onChange={(e: ChangeEvent<HTMLSelectElement>) => handleSelectClick(e)}/>
-            <PlayerScore onClick={(name: string)=>onInputClick(name)} players={players} currentPlayer={currentPlayer} score={score} onChange={(e: ChangeEvent<HTMLInputElement>)=>setInputValue(e)}/>
+            <div className={css["select-container"]}>
+                <ImageContainer url={data.image} alt={data.name} state={readyState}/>
+                <div>
+                    <PlayerSelect players={players} onChange={(e) => handleSelectClick(e)}/>
+                    <PlayerScore onClick={(name: string)=>onInputClick(name)} players={players} currentPlayer={currentPlayer} score={score} onChange={(e: ChangeEvent<HTMLInputElement>)=>setInputValue(e)}/>
+                </div>
+            </div>
             {showModal && <ModalOverlay close={() => setShowModal(false)} content={<AddPlayerContent value={newPlayer} onChange={(e: ChangeEvent<HTMLInputElement>)=>addPlayerName(e)} onClick={()=>{onSavePlayerButtonClick()}}/>} />}
-        </>
+        </div>
     )
     
 }
