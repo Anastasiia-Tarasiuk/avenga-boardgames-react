@@ -1,8 +1,9 @@
 import PageHeading from "../../components/PageHeading";
 import { useNavigate } from "react-router-dom";
 import { IStore, PlayerData } from "../../../@types/types";
-import PlayerItem from "../../components/PlayerItem";
 import { useSelector } from "react-redux";
+import css from "./Players.module.css";
+import PlayerList from "../../components/PlayerList";
 
 const Players = (): JSX.Element => {
     const navigate = useNavigate();
@@ -13,14 +14,10 @@ const Players = (): JSX.Element => {
     }
 
     return (
-        <>
+        <div className={css["section-container"]}>
             <PageHeading children="Players"/>
-            <ul>
-                {players.map((player: PlayerData)=> {
-        const name = player.name;
-        return <PlayerItem key={name} name={name} children={name} onClick={onSeeScoreButtonClick}/>
-            })}</ul>
-        </>
+            <PlayerList className={css.list} onClick={onSeeScoreButtonClick} list={players}/>
+        </div>
     )
 }
 

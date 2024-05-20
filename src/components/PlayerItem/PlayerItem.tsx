@@ -1,16 +1,19 @@
-import Text from "../Text";
 import Button from "../Button";
+import ImageContainer from "../ImageContainer";
+import useReady from "../../hooks/useReady";
 
 type Props = {
     name: string;
     onClick: (name: string) => void;
-    children: string;
+    url: string
 }
 
-const PlayerItem = ({name, onClick, children}: Props) => {
+const PlayerItem = ({name, onClick, url}: Props) => {
+    const {readyState} = useReady();
+
     return(
         <li>
-            <Text children={children}/>
+            <ImageContainer url={url} alt={name} state = {readyState}/>
             <Button buttonType="button" children="See score" onClick={()=> onClick(name)} />
         </li> 
     )
