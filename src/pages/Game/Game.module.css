@@ -7,3 +7,25 @@
     height: 300px;
     margin-right: 20px;
 }
+
+.block-container > div {
+    position: relative;
+    width: 300px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+.block-container > div p {
+    background-color: rgba(211,211,211, 0.7);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.block-container {
+    display: flex;
+}
+
+.block-container + p {
+    margin-bottom: 20px;
+}
