@@ -1,0 +1,34 @@
+.section-container {
+    padding: 40px 160px;
+}
+
+.list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: -20px;
+    margin-right: -20px;
+}
+
+.list li {
+    background-color: rgb(211,211,211);
+    margin-bottom: 20px;
+    margin-right: 20px;
+    width: 300px;
+}
+
+.list img {
+    object-fit: cover;
+    display: block;
+    width: 100%;
+    height: 300px;
+    margin-bottom: 20px;
+}
+
+.list p {
+    margin-bottom: 20px;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

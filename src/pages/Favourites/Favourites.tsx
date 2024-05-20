@@ -6,6 +6,7 @@ import { updateFavourite } from "../../store/actions";
 import GameList from "../../components/GameList";
 import { MouseEvent } from "react";
 import { toast } from "react-toastify";
+import css from "./Favourites.module.css";
 
 const Favourites = () => {
     const favourites: GameData[] = useSelector((state: IStore) => state.favourites.favourites);
@@ -18,12 +19,12 @@ const Favourites = () => {
     }
 
     return (
-        <>
+        <div className={css["section-container"]}>
         <PageHeading children="Favourites"/>
         {favourites.length > 0
-            ? <GameList list={favourites} onClick={(e)=>removeFromFavourites(e)} children="Remove"/>
+            ? <GameList className={css.list} list={favourites} onClick={(e)=>removeFromFavourites(e)} children="Remove"/>
             : <Text children="No items"/>}
-        </>
+        </div>
     )
 }
 
