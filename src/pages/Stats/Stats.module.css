@@ -1,0 +1,31 @@
+.section-container {
+    padding: 40px 160px;
+}
+
+.list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: -20px;
+}
+
+.list li {
+    margin-bottom: 20px;
+}
+
+.list div {
+    position: relative;
+    margin-bottom: 20px;
+
+}
+.section-container img {
+    width: 300px;
+    height: 300px;
+    margin-right: 20px;
+}
+
+.list img + p {
+    width: 300px;
+    position: absolute;
+    bottom: 0;
+    background-color: rgba(211,211,211, 0.7);
+}

@@ -1,25 +1,25 @@
 import useReady from "../../hooks/useReady";
-import { GameData, ScoreData, ScoreObj, Winner } from "../../../@types/types";
+import { Stats } from "../../../@types/types";
 import ImageContainer from "../ImageContainer";
-import ScoreList from "../ScoreList";
-import ScoreItem from "../ScoreItem";
+import Icon from "../Icon";
 
-type Props = {
-    game: GameData;
-    best: number;
-    winners: Winner;
-    scoreObj: ScoreObj
-}
-
-const StatsItem = ({game, best, winners, scoreObj}: Props) => {
+const StatsItem = ({game, date, best, totalPlays, name, timesWon}: Stats) => {
     const {readyState} = useReady();
+
+    function parseDate(date: string) {
+        return new Date(Number(date)).toLocaleDateString('en-GB', {  
+            day:   'numeric',
+            month: 'short',
+            year:  'numeric',
+        });
+    }
 
     return (
         <li>
             <ImageContainer url={game.image} alt={game.name} state={readyState}/>
-            <ScoreList children={scoreObj[game.id].map((item: ScoreData) => {
-                return <ScoreItem key={item.date} item={item} best={best} winners={winners}/>
-            })}/>
+            <p><Icon state="best"/> The best score was {best} ({parseDate(date)})</p>
+            <p><Icon state="medal"/> {name} won {timesWon} times</p>
+            <p><Icon state="total"/> Played {totalPlays} times</p>
         </li>
     )
 }

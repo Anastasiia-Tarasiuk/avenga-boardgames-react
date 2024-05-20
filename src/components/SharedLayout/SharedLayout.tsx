@@ -114,17 +114,18 @@ const SharedLayout = (): JSX.Element => {
                 <NavLink to="/"><Image className={css.logo} src={logo} alt="Logo"/></NavLink>
                 <nav>
                     <ul className={css["header-menu"]}>
-                        <li><NavLink to="/">My list</NavLink></li>
+                        <li><NavLink to="/"><span>My list</span></NavLink></li>
                         <li onClick={onItemClick} className="pointer">
+                        <span>
                             {isAddGame 
                                 ? <Filter onSubmit={e => handleSubmit(e)} inputType="text" name="search"
                                  value={value} onChange={e => handleChange(e)} placeholder="Type game name"
                                  children=""/>
                                 : "Add game"
-                            }</li>
-                        <li><NavLink to="/favourites">Favourites</NavLink></li>
-                        <li><NavLink to="/players">Players</NavLink></li>
-                        {/* <li><NavLink to="/settings">Settings</NavLink></li> */}
+                            }</span></li>
+                        <li><NavLink to="/favourites"><span>Favourites</span></NavLink></li>
+                        <li><NavLink to="/players"><span>Players</span></NavLink></li>
+                        {/* <li><NavLink to="/settings"><span>Settings</span></NavLink></li> */}
                     </ul>
                 </nav>
             </header>

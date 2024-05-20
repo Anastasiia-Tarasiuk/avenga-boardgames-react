@@ -28,6 +28,12 @@ const Icon = ({state, size={width: "20", height: "20"}, className}: Props) => {
         case "arrow":
             path = "#arrow";
             break;  
+        case "calendar":
+            path = "#calendar";
+            break; 
+        case "total":
+            path = "#total";
+            break; 
         default:
             path = null;
             break;

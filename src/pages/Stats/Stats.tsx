@@ -5,13 +5,13 @@ import StatsList from "../../components/StatsList";
 import { GameData, IStore } from "../../../@types/types";
 import { useSelector } from "react-redux";
 import { useRef, useEffect, useState } from "react";
+import css from "./Stats.module.css";
 
 const Stats = (): JSX.Element => {
     const {playerId} = useParams<{playerId: string}>();
     const games: GameData[] = useSelector((state: IStore)=> state.games.games);
     const ref = useRef<HTMLElement>();
     const [isPlayed, setIsPlayed] = useState<boolean>(false);
-
 
     useEffect(()=>{
         if (ref.current) {
@@ -22,11 +22,11 @@ const Stats = (): JSX.Element => {
     }, [])
     
     return (
-        <>
-        <PageHeading children={`Game stats of ${playerId}`}/>
-            <StatsList ref={ref} games={games} playerId={playerId} />
+        <div className={css["section-container"]}>
+            <PageHeading children={`Game stats of ${playerId}`}/>
+            <StatsList className={css.list} ref={ref} games={games} playerId={playerId}/>
             {!isPlayed && <Text children="No played games yet"/>}
-        </>
+        </div>
     )
 }
 

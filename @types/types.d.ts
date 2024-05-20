@@ -15,6 +15,7 @@ export type GameData = {
 }
 
 export type ScoreData = {
+    game?: GameData;
     date: string;
     player: string;
     score: number | string;
@@ -51,4 +52,13 @@ export type ImageData = {
     src: string; 
     alt: string; 
     className?: string;
+}
+
+export type Stats = {
+    game: GameData;
+    best: number;
+    date: string;
+    totalPlays: number;
+    timesWon: number;
+    name?: string
 }

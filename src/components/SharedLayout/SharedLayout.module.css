@@ -6,7 +6,8 @@
     background-color: rgb(58,109,166);
 }
 
-.header li {
+.header li span {
+    display: block;
     padding: 5px;
 }
 
