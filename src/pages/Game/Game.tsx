@@ -34,9 +34,9 @@ const Game = (): JSX.Element => {
             <PageHeading children="Save game to list"/>
             <div className={css["block-container"]}>
                 <ImageContainer url={data.image} alt={data.name} state={readyState}/>
-                <Text children={data.description}/>
+                {data.description && <Text children={data.description}/>}
             </div>
-            <Text children={`Play time: ${data.playTime + " min"}`}/>
+            {data.playTime && <Text children={`Play time: ${data.playTime + " min"}`}/>}
             <Button onClick={onAddButtonClick} buttonType="button" children="Add game" disabled={desible}/>
             {desible && <Button onClick={onAddScoreButtonClick} buttonType="button" children="Add score" disabled={false}/>}
         </div>

@@ -36,8 +36,8 @@ const MyList = (): JSX.Element => {
             id: item._attributes.id,
             image:  item.thumbnail._attributes.value,
             name: item.name._attributes.value,
-            description: "bla-bla",
-            playTime: "bla-bla",
+            description: "",
+            playTime: "",
             isFavourite: false,
         };
 

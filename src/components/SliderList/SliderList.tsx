@@ -51,7 +51,7 @@ const SliderList = ({list, onClick, className}: any) => {
                             const id: string = item._attributes.id;
                             const name: string = item.name._attributes.value;
                             const url: string = item.thumbnail._attributes.value;
-                            return <SliderItem key={id} onClick={onClick} url={url} item={item} alt={name} />
+                            return <SliderItem key={id} onClick={onClick} url={url} item={item} alt={name} id={id}/>
                         }))
                     }
                 </ul>
