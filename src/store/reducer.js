@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { ADDGAME, ADDPLAYER, ADDFAVOURITE, SETCURRENTGAME, SETDATE, UPDATEGAMES, UPDATEFAVOURITE, UPDATEPLAYERS, SETWINNERS, SETHOTTEST} from "./types";
+import { ADDGAME, ADDPLAYER, ADDFAVOURITE, RESETPLAYERS, UPDATESCORE, SETCURRENTGAME, SETDATE, UPDATEGAMES, UPDATEFAVOURITE, SETWINNERS, SETHOTTEST, UPDATEVISIBILITY} from "./types";
 import { initialState } from "./initialState";
 
 const gameReducer = (store = initialState.games, action) => {
@@ -42,10 +42,36 @@ const playerReducer = (store = initialState.players, action) => {
                 players: [...store.players, action.payload] 
             };
 
-        case UPDATEPLAYERS:
+        case RESETPLAYERS:
             return {
                 ...store,
-                players: action.payload
+                players: [...store.players].map(player => {
+                    player.hidden = true;
+                    player.score = 0;
+                    return player;
+                })
+            };
+
+        case UPDATESCORE:
+            return {
+                ...store,
+                players: [...store.players].map(player => {
+                    if (player.name.toLowerCase() === action.payload.playerName.toLowerCase()) {
+                        player.score = action.payload.score
+                    }
+                    return player;
+                })
+            };
+
+        case UPDATEVISIBILITY:
+            return {
+                ...store,
+                players: [...store.players].map(player => {
+                    if (player.name.toLowerCase() === action.payload.playerName.toLowerCase()) {
+                        player.hidden = action.payload.hidden
+                    }
+                    return player;
+                })
             };
 
         case SETWINNERS:

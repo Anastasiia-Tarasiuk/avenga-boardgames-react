@@ -5,19 +5,18 @@ import PlayerScore from "../../components/PlayerScore";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import ModalOverlay from "../../components/ModalOverlay";
 import AddPlayerContent from "../../components/AddPlayerContent";
-import { GameData, IStore, PlayerData } from "../../../@types/types";
+import { GameData, IStore, PlayerData, Winner } from "../../../@types/types";
 import { ScoreData } from "../../../@types/types";
 import ImageContainer from "../../components/ImageContainer";
 import useReady from "../../hooks/useReady";
 import { useDispatch, useSelector } from "react-redux";
-import { addPlayer, setWinners, updateGames, updatePlayers } from "../../store/actions";
+import { addPlayer, resetPlayers, setWinners, updateGames, updateScore, updateVisibility } from "../../store/actions";
 import { toast } from "react-toastify";
 import debounce from "lodash.debounce";
 import css from "./Score.module.css";
 
 const Score = (): JSX.Element => {
     const { gameId } = useParams<{gameId: string}>();
-    const [players, setPlayers] = useState<PlayerData[]>(useSelector((store: IStore) => store.players.players));
     const [currentPlayer, setCurrentPlayer] = useState<string>("");
     const [score, setScore] = useState<string>("0");
     const [showModal, setShowModal] = useState<boolean>(false);
@@ -25,24 +24,15 @@ const Score = (): JSX.Element => {
     const {readyState} = useReady();
     const dispatch = useDispatch();
 
-    const data = useSelector((store: IStore) => store.games.currentGame);
-    const gameList = useSelector((store: IStore) => store.games.games);
-    const winners = useSelector((store: IStore) => store.players.winners);
+    const players: PlayerData[] = useSelector((store: IStore) => store.players.players);
+    const gameData: GameData = useSelector((store: IStore) => store.games.currentGame);
+    const gameList: GameData[] = useSelector((store: IStore) => store.games.games);
+    const winners: Winner = useSelector((store: IStore) => store.players.winners);
     const date = useSelector((store: IStore) => store.games.date);
 
     useEffect(() => {
-        return () => {
-            if (!document.URL.includes("score")) {
-                const updatedPlayers = players.map((player: PlayerData) => {
-                    player.hidden = true;
-                    player.score = 0;
-                    return player;
-                })
-    
-                dispatch(updatePlayers(updatedPlayers));
-            }
-        };
-    }, [dispatch, players]);
+        return () => {dispatch(resetPlayers())};
+    }, [dispatch]);
 
     const debouncedFunc = useRef(
         debounce(async (value: string, player: string) => {
@@ -71,20 +61,12 @@ const Score = (): JSX.Element => {
         }
     }
 
-    function showPlayer(value: string) {
-        const newPlayers = players.map((player: PlayerData) => {
-
-            if (player.name.toLowerCase() === value.toLowerCase()) {
-                player.hidden = false;
-            }
-
-            return player;
-        })
-        setPlayers(newPlayers);
+    function showPlayer(playerName: string) {
+        dispatch(updateVisibility({playerName, hidden: false}))
     }
 
-    function addScore(currentScore: string, player: string) {
-        gameList.forEach((game: GameData) => {
+    function addScore(currentScore: string, playerName: string) {
+        const updatedGameList = gameList.map((game: GameData) => {
             if (game.id === gameId) {
                 if (!game.score) {
                     game.score = [];
@@ -92,31 +74,28 @@ const Score = (): JSX.Element => {
 
                 const scoreObj: ScoreData = {
                     date,
-                    player: player,
+                    player: playerName,
                     score: currentScore
                 }
 
-                const index = game.score.findIndex((score: ScoreData)=> score.date === date && score.player === player);
+                const index = game.score.findIndex((score: ScoreData)=> score.date === date && score.player === playerName);
 
                 if (index === -1) {
                     game.score.push(scoreObj);
-                    toast.success(`The score was added for ${player}`)
+                    toast.success(`The score was added for ${playerName}`)
                 } else {
                     game.score.splice(index, 1, scoreObj);
-                    toast.info(`The score was changed for ${player}`)
+                    toast.info(`The score was changed for ${playerName}`)
                 }
 
-                saveWinner(date, currentScore, player);
+                saveWinner(date, currentScore, playerName);
             }
+            
+            return game;
         })
 
-        players.forEach(statePlayer => {
-            if (statePlayer.name === player) {
-                statePlayer.score = currentScore;
-            }
-        })
-
-        dispatch(updateGames(gameList));
+        dispatch(updateScore({playerName, score: currentScore}));
+        dispatch(updateGames(updatedGameList));
     }
 
     function addPlayerName(e: ChangeEvent<HTMLInputElement>) {
@@ -138,7 +117,6 @@ const Score = (): JSX.Element => {
         const newPlayerObj = {"name": newPlayer, "hidden": false, score: 0};
         dispatch(addPlayer(newPlayerObj));
         setShowModal(false);
-        setPlayers(prevState => [...prevState, {...newPlayerObj}]);
         setNewPlayer("");
     }
 
@@ -159,6 +137,7 @@ const Score = (): JSX.Element => {
                 winners[date].player = player;
             } 
         }
+
         dispatch(setWinners(winners));
     }
 
@@ -172,7 +151,7 @@ const Score = (): JSX.Element => {
         <div className={css["section-container"]}>
             <PageHeading children="Set score"/>
             <div className={css["select-container"]}>
-                <ImageContainer url={data.image} alt={data.name} state={readyState}/>
+                <ImageContainer url={gameData.image} alt={gameData.name} state={readyState}/>
                 <div>
                     <PlayerSelect players={players} onChange={(e) => handleSelectClick(e)}/>
                     <PlayerScore onClick={(name: string)=>onInputClick(name)} players={players} currentPlayer={currentPlayer} score={score} onChange={(e: ChangeEvent<HTMLInputElement>)=>setInputValue(e)}/>
