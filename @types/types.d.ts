@@ -40,7 +40,7 @@ export interface IStore {
         favourites: GameData[]
     },
     hottest: {
-        hottest: any[]
+        hottest: HottestData[]
     }
 }
 
@@ -61,4 +61,20 @@ export type Stats = {
     totalPlays: number;
     timesWon: number;
     name?: string
+}
+
+type HottestData = {
+    _attributes: {
+        id: string,
+        rank: string
+    };
+    thumbnail: GerenalData;
+    name: GerenalData;
+    yearpublished: GerenalData;
+}
+
+type GerenalData = {
+    _attributes: {
+        value: string
+    };
 }

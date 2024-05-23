@@ -4,8 +4,15 @@ import css from "./SliderList.module.css";
 import { MouseEvent } from "react";
 import SliderItem from "../SliderItem";
 import Icon from "../Icon";
+import { HottestData } from "../../../@types/types";
 
-const SliderList = ({list, onClick, className}: any) => {
+type Props = {
+    list: HottestData[];
+    onClick: (id: string, item: HottestData) => void;
+    className: string;
+}
+
+const SliderList = ({list, onClick, className}: Props) => {
     const [shownIndex, setShownIndex] = useState<number>(0);
     
     function handleButtonClick(e: MouseEvent<HTMLButtonElement>) {
@@ -23,7 +30,7 @@ const SliderList = ({list, onClick, className}: any) => {
         }
     }
 
-    function filterArray(list: any) {
+    function filterArray(list: HottestData[]) {
         const filtered = [];
 
         for (let index = 0; index < list.length; index++) {
@@ -47,7 +54,7 @@ const SliderList = ({list, onClick, className}: any) => {
                 
                 <ul className={className}>
                     {
-                        filterArray(list).map(((item: any) => {
+                        filterArray(list).map(((item: HottestData) => {
                             const id: string = item._attributes.id;
                             const name: string = item.name._attributes.value;
                             const url: string = item.thumbnail._attributes.value;

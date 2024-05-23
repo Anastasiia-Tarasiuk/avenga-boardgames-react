@@ -10,7 +10,7 @@ import css from "./Stats.module.css";
 const Stats = (): JSX.Element => {
     const {playerId} = useParams<{playerId: string}>();
     const games: GameData[] = useSelector((state: IStore)=> state.games.games);
-    const ref = useRef<HTMLElement>();
+    const ref = useRef<HTMLUListElement>(null);
     const [isPlayed, setIsPlayed] = useState<boolean>(false);
 
     useEffect(()=>{

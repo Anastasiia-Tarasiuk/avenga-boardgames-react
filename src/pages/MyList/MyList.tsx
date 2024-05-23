@@ -3,7 +3,7 @@ import { MouseEvent } from "react";
 import Text from "../../components/Text";
 import GameList from "../../components/GameList";
 import PageHeading from "../../components/PageHeading";
-import { GameData, IStore } from "../../../@types/types";
+import { GameData, HottestData, IStore } from "../../../@types/types";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentGame, setDate, setHottest } from "../../store/actions";
 import fetchAPI from "../../utils/gameFetch";
@@ -26,12 +26,12 @@ const MyList = (): JSX.Element => {
     }
 
     if (hottest.length === 0) {
-        fetchAPI(url).then((data: any) => {
+        fetchAPI(url).then((data: HottestData[]) => {
             dispatch(setHottest(data));
         })
     }
 
-    function seeHottestGame(id: string, item: any) {
+    function seeHottestGame(id: string, item: HottestData) {
         const game: GameData = {
             id: item._attributes.id,
             image:  item.thumbnail._attributes.value,
@@ -48,7 +48,7 @@ const MyList = (): JSX.Element => {
     return (
         <>
             <div className={`${css["section-container"] + " " + css["slider-section-container"]}`}>
-                <SliderList className={css.slider} list={hottest} onClick={(id: string, item: any)=>seeHottestGame(id, item)}/> 
+                <SliderList className={css.slider} list={hottest} onClick={(id: string, item: HottestData)=>seeHottestGame(id, item)}/> 
             </div>
             <div className={css["section-container"]}>
                 <PageHeading children="My list"/>

@@ -9,7 +9,7 @@ type Props = {
     className: string;
 }
 
-const StatsList = forwardRef(({games, playerId, className}: Props, ref: any) => {
+const StatsList = forwardRef<HTMLUListElement, Props>(({games, playerId, className}, ref) => {
     const filtered: Stats[] = []
     const scoreObj: ScoreObj = {};
     const winners: Winner = useSelector((state: IStore)=> state.players.winners);
