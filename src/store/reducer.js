@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 import { ADDGAME, ADDPLAYER, ADDFAVOURITE, RESETPLAYERS, UPDATESCORE, SETCURRENTGAME, SETDATE, UPDATEGAMES, UPDATEFAVOURITE, SETWINNERS, SETHOTTEST, UPDATEVISIBILITY} from "./types";
 import { initialState } from "./initialState";
+import { toast } from "react-toastify";
 
 const gameReducer = (store = initialState.games, action) => {
     switch (action.type) {
@@ -25,7 +26,31 @@ const gameReducer = (store = initialState.games, action) => {
         case UPDATEGAMES: 
             return {
                 ...store,
-                games: action.payload
+                games: [...store.games].map(game =>{
+                    if (game.id === action.payload.gameId) {
+                        if (!game.score) {
+                            game.score = [];
+                        }
+        
+                        const scoreObj = {
+                            date: action.payload.date,
+                            player: action.payload.playerName,
+                            score: action.payload.currentScore
+                        }
+        
+                        const index = game.score.findIndex(score=> score.date === action.payload.date && score.player === action.payload.playerName);
+        
+                        if (index === -1) {
+                            game.score.push(scoreObj);
+                            toast.success(`The score was added for ${action.payload.playerName}`)
+                        } else {
+                            game.score.splice(index, 1, scoreObj);
+                            toast.info(`The score was changed for ${action.payload.playerName}`)
+                        }
+                    }
+        
+                    return game;
+                })
             };
 
         default:
@@ -75,11 +100,26 @@ const playerReducer = (store = initialState.players, action) => {
             };
 
         case SETWINNERS:
+            const winners = {...store.winners};
+            let winner = {name: "name", score: 0};
+
+            action.payload.playerState.forEach(player => {
+                if (player.score >= winner.score) {
+                    winner = player;
+                }
+            })
+
+            if (!winners.hasOwnProperty(action.payload.date)) {
+                winners[action.payload.date] = winner;
+            } else {
+                winners[action.payload.date] = winner;
+            }
+
             return {
                 ...store,
-                winners: action.payload
-            };    
-    
+                winners: winners
+            };     
+
         default:
             return store;
     }

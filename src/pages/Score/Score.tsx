@@ -5,8 +5,7 @@ import PlayerScore from "../../components/PlayerScore";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import ModalOverlay from "../../components/ModalOverlay";
 import AddPlayerContent from "../../components/AddPlayerContent";
-import { GameData, IStore, PlayerData, Winner } from "../../../@types/types";
-import { ScoreData } from "../../../@types/types";
+import { GameData, IStore, PlayerData } from "../../../@types/types";
 import ImageContainer from "../../components/ImageContainer";
 import useReady from "../../hooks/useReady";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,6 +13,11 @@ import { addPlayer, resetPlayers, setWinners, updateGames, updateScore, updateVi
 import { toast } from "react-toastify";
 import debounce from "lodash.debounce";
 import css from "./Score.module.css";
+
+type PlayerState = {
+    name: string;
+    score: number;
+}
 
 const Score = (): JSX.Element => {
     const { gameId } = useParams<{gameId: string}>();
@@ -23,16 +27,21 @@ const Score = (): JSX.Element => {
     const [newPlayer, setNewPlayer] = useState<string>("");
     const {readyState} = useReady();
     const dispatch = useDispatch();
+    const [playersState, setPlayersState] = useState<PlayerState[]>([])
 
     const players: PlayerData[] = useSelector((store: IStore) => store.players.players);
     const gameData: GameData = useSelector((store: IStore) => store.games.currentGame);
-    const gameList: GameData[] = useSelector((store: IStore) => store.games.games);
-    const winners: Winner = useSelector((store: IStore) => store.players.winners);
     const date = useSelector((store: IStore) => store.games.date);
 
     useEffect(() => {
         return () => {dispatch(resetPlayers())};
     }, [dispatch]);
+
+    useEffect(()=>{
+        if (playersState.length > 0){
+            dispatch(setWinners({date, playerState: playersState}))
+        }
+    }, [date, dispatch, playersState])
 
     const debouncedFunc = useRef(
         debounce(async (value: string, player: string) => {
@@ -57,6 +66,7 @@ const Score = (): JSX.Element => {
                 setCurrentPlayer(value);
                 showPlayer(value);
                 setScore("0");
+                setPlayersState(prevState => [...prevState,  {name: value, score: 0}]);
             }
         }
     }
@@ -66,36 +76,20 @@ const Score = (): JSX.Element => {
     }
 
     function addScore(currentScore: string, playerName: string) {
-        const updatedGameList = gameList.map((game: GameData) => {
-            if (game.id === gameId) {
-                if (!game.score) {
-                    game.score = [];
+        setPlayersState(prevState => {
+            const playerState =  [...prevState].map((state: PlayerState) => {
+                if (state.name === playerName) {
+                    state.score = Number(currentScore);
                 }
 
-                const scoreObj: ScoreData = {
-                    date,
-                    player: playerName,
-                    score: currentScore
-                }
+                return state;
+            })
 
-                const index = game.score.findIndex((score: ScoreData)=> score.date === date && score.player === playerName);
-
-                if (index === -1) {
-                    game.score.push(scoreObj);
-                    toast.success(`The score was added for ${playerName}`)
-                } else {
-                    game.score.splice(index, 1, scoreObj);
-                    toast.info(`The score was changed for ${playerName}`)
-                }
-
-                saveWinner(date, currentScore, playerName);
-            }
-            
-            return game;
+            return playerState;
         })
 
         dispatch(updateScore({playerName, score: currentScore}));
-        dispatch(updateGames(updatedGameList));
+        dispatch(updateGames({gameId, date, playerName, currentScore}));
     }
 
     function addPlayerName(e: ChangeEvent<HTMLInputElement>) {
@@ -114,10 +108,10 @@ const Score = (): JSX.Element => {
 
         setScore("0");
         setCurrentPlayer(newPlayer);
-        const newPlayerObj = {"name": newPlayer, "hidden": false, score: 0};
-        dispatch(addPlayer(newPlayerObj));
+        dispatch(addPlayer({"name": newPlayer, "hidden": false, score: 0}));
         setShowModal(false);
         setNewPlayer("");
+        setPlayersState(prevState => [...prevState,  {name: newPlayer, score: 0}]);
     }
 
     function onInputClick(name: string) {
@@ -126,19 +120,6 @@ const Score = (): JSX.Element => {
         }
 
         setScore("");
-    }
-
-    function saveWinner(date: string, score: string, player: string) {
-        if (!winners.hasOwnProperty(date)) {
-            winners[date] = {date, score, player};
-        } else {
-            if (Number(winners[date].score) < Number(score)) {
-                winners[date].score = score;
-                winners[date].player = player;
-            } 
-        }
-
-        dispatch(setWinners(winners));
     }
 
     function setInputValue(e: ChangeEvent<HTMLInputElement>){

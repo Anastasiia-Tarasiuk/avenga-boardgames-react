@@ -12,12 +12,12 @@ export const addGame = (game) => {
     return {type: ADDGAME, payload: game}
 };
 
-export const updateGames = (games) => {
-    return {type: UPDATEGAMES, payload: games}
+export const updateGames = ({gameId, date, playerName, currentScore}) => {
+    return {type: UPDATEGAMES, payload: {gameId, date, playerName, currentScore}}
 }
 
-export const setWinners = (winners) => {
-    return {type: SETWINNERS, payload: winners}
+export const setWinners = ({date, playerState}) => {
+    return {type: SETWINNERS, payload: {date, playerState}}
 }
 
 export const addFavourite = (game) => {
