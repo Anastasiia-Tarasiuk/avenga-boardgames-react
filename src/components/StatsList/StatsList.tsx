@@ -35,6 +35,7 @@ const StatsList = forwardRef(({games, playerId, className}: Props, ref: any) => 
                         date = score.date; 
                     }
 
+                    console.log(winners[score.date])
                     if (winners[score.date].player === playerId) {
                         timesWon ++;
                     }

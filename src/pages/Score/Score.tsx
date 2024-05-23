@@ -15,7 +15,7 @@ import debounce from "lodash.debounce";
 import css from "./Score.module.css";
 
 type PlayerState = {
-    name: string;
+    player: string;
     score: number;
 }
 
@@ -66,7 +66,7 @@ const Score = (): JSX.Element => {
                 setCurrentPlayer(value);
                 showPlayer(value);
                 setScore("0");
-                setPlayersState(prevState => [...prevState,  {name: value, score: 0}]);
+                setPlayersState(prevState => [...prevState,  {player: value, score: 0}]);
             }
         }
     }
@@ -78,7 +78,7 @@ const Score = (): JSX.Element => {
     function addScore(currentScore: string, playerName: string) {
         setPlayersState(prevState => {
             const playerState =  [...prevState].map((state: PlayerState) => {
-                if (state.name === playerName) {
+                if (state.player === playerName) {
                     state.score = Number(currentScore);
                 }
 
@@ -111,7 +111,7 @@ const Score = (): JSX.Element => {
         dispatch(addPlayer({"name": newPlayer, "hidden": false, score: 0}));
         setShowModal(false);
         setNewPlayer("");
-        setPlayersState(prevState => [...prevState,  {name: newPlayer, score: 0}]);
+        setPlayersState(prevState => [...prevState,  {player: newPlayer, score: 0}]);
     }
 
     function onInputClick(name: string) {

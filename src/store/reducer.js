@@ -101,7 +101,7 @@ const playerReducer = (store = initialState.players, action) => {
 
         case SETWINNERS:
             const winners = {...store.winners};
-            let winner = {name: "name", score: 0};
+            let winner = {player: "name", score: 0};
 
             action.payload.playerState.forEach(player => {
                 if (player.score >= winner.score) {
