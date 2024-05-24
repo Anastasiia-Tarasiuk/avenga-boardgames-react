@@ -72,7 +72,7 @@ const Score = (): JSX.Element => {
     }
 
     function showPlayer(playerName: string) {
-        dispatch(updateVisibility({playerName, hidden: false}))
+        dispatch(updateVisibility({playerName, hidden: false}));
     }
 
     function addScore(currentScore: string, playerName: string) {
@@ -97,7 +97,7 @@ const Score = (): JSX.Element => {
     }
 
     function onSavePlayerButtonClick() {
-        const index = players.findIndex(player => player.name.toLowerCase() === newPlayer.toLowerCase())
+        const index = players.findIndex(player => player.name.toLowerCase() === newPlayer.toLowerCase());
 
         if (index !== -1) {
             toast.error("Such player already exists");
@@ -108,7 +108,7 @@ const Score = (): JSX.Element => {
 
         setScore("0");
         setCurrentPlayer(newPlayer);
-        dispatch(addPlayer({"name": newPlayer, "hidden": false, score: 0}));
+        dispatch(addPlayer({name: newPlayer, hidden: false, score: 0}));
         setShowModal(false);
         setNewPlayer("");
         setPlayersState(prevState => [...prevState,  {player: newPlayer, score: 0}]);

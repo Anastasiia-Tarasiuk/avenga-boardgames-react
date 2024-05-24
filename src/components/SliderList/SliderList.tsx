@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "../Button";
 import css from "./SliderList.module.css";
 import { MouseEvent } from "react";
@@ -14,16 +14,50 @@ type Props = {
 
 const SliderList = ({list, onClick, className}: Props) => {
     const [shownIndex, setShownIndex] = useState<number>(0);
+    const [slidesNumber, setSlidesNumber] = useState<number>(7);
+    const [width, setwidth] = useState(0);
+
+    const sliderRef = useRef<HTMLDivElement>(null);
     
+    useEffect(()=>{
+        const slider = sliderRef.current;
+        const observer = new ResizeObserver(entries => {
+            setwidth(entries[0].contentRect.width)
+        })
+
+        if (slider) {
+            observer.observe(slider);
+        }
+
+        if (width >= 1580) { //5
+            setSlidesNumber(9)
+        } else if (1260 <= width && width < 1580) { //4
+            setSlidesNumber(7)
+        } else if (940 <= width && width < 1260) { //3
+            setSlidesNumber(5)
+        } else if (620 <= width && width < 940) { //2
+            setSlidesNumber(3)  
+        } else { // 1
+            setSlidesNumber(1) 
+        }
+
+        return () => {
+            if (slider) {
+                observer.unobserve(slider)
+            };
+        };
+        
+    }, [width])
+
     function handleButtonClick(e: MouseEvent<HTMLButtonElement>) {
         const id: string | undefined = e.currentTarget.dataset.id;
 
         switch (id) {
             case "next":
-                setShownIndex(prevState => prevState - 5);
+                setShownIndex(prevState => prevState - slidesNumber);
                 break;
             case "prev":
-                setShownIndex(prevState => prevState + 5);
+                setShownIndex(prevState => prevState + slidesNumber);
                 break;        
             default:
                 break;
@@ -35,7 +69,8 @@ const SliderList = ({list, onClick, className}: Props) => {
 
         for (let index = 0; index < list.length; index++) {
             const item = list[index];
-            if (index >= shownIndex && index < shownIndex + 5) {
+
+            if (index >= shownIndex && index < shownIndex + slidesNumber) {
                 filtered.push(item);
             } 
         }
@@ -46,7 +81,7 @@ const SliderList = ({list, onClick, className}: Props) => {
     return (
         <>
             {list.length> 0 && 
-            <div className={css.container}>
+            <div className={css.container} ref={sliderRef}>
                 {shownIndex === 0 
                     ? <Button id="next" buttonType="button" children={<Icon className={css.arrow} state="arrow"/>} onClick={(e) => handleButtonClick(e)} disabled={true}/>
                     : <Button id="next" buttonType="button" children={<Icon className={css.arrow} state="arrow"/>}onClick={(e) => handleButtonClick(e)} disabled={false}/>
@@ -63,7 +98,7 @@ const SliderList = ({list, onClick, className}: Props) => {
                     }
                 </ul>
 
-                {shownIndex === list.length - 5
+                {list.length - shownIndex < slidesNumber
                     ? <Button id="prev" buttonType="button" children={<Icon state="arrow"/>} onClick={(e) => handleButtonClick(e)} disabled={true}/>
                     : <Button id="prev" buttonType="button" children={<Icon state="arrow"/>} onClick={(e) => handleButtonClick(e)} disabled={false}/>
                 }
